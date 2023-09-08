@@ -54,84 +54,67 @@ INSERT INTO atm VALUES (NULL, "NCR Corporation", "NCR SelfServ", "Windows", "Int
 
 SELECT * FROM atm;
 
-CREATE TABLE cpu(
-id_cpu INT PRIMARY KEY AUTO_INCREMENT,
-aberto TINYINT,
-data_registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-porcentagem_utilizacao FLOAT,
-velocidade DECIMAL(3,2),
-processos INT,
-tempo_usuario VARCHAR(45),
-tempo_sistema VARCHAR(45),
-fk_atm INT,
- CONSTRAINT fk_cpu_atm FOREIGN KEY (fk_atm)
-  REFERENCES atm (id_atm),
-fk_empresa INT,
- CONSTRAINT fk_cpu_empresa FOREIGN KEY (fk_empresa)
-  REFERENCES empresa (id_empresa));
-  
-INSERT INTO cpu VALUES (NULL, true, CURRENT_TIMESTAMP, 63, 0.89, 292, 420030, 3200000, 1, 1)
-;
-SELECT * FROM cpu;
-
-CREATE TABLE memoria(
-id_memoria INT PRIMARY KEY AUTO_INCREMENT,
-aberto TINYINT,
-data_registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-total FLOAT,
-usado FLOAT,
-livre INT,
-porcentagem_uso FLOAT,
-fk_atm INT,
- CONSTRAINT fk_memoria_atm FOREIGN KEY (fk_atm)
-  REFERENCES atm (id_atm),
-fk_empresa INT,
- CONSTRAINT fk_memoria_empresa FOREIGN KEY (fk_empresa)
-  REFERENCES empresa (id_empresa));
-
-INSERT INTO memoria VALUES (NULL, TRUE, CURRENT_TIMESTAMP, 7.91, 5.91, 1.94, 75.5, 1, 1);
-  SELECT * FROM memoria;
-  
-  CREATE TABLE disco (
-    idDisco INT PRIMARY KEY AUTO_INCREMENT,
-    aberto TINYINT,
-    data_registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    nome_disco VARCHAR(45),
-    sistema_de_arquivo VARCHAR(45),
-    porcentagem_uso FLOAT,
-    capacidade_total BIGINT,
-    capacidade_usada BIGINT,
-    capacidade_livre BIGINT,
-    leituras INT,
-    escritas INT,
-    fk_atm INT,
-    fk_empresa INT,
-    CONSTRAINT fk_disco_atm FOREIGN KEY (fk_atm) REFERENCES atm (id_atm),
-    CONSTRAINT fk_disco_empresa FOREIGN KEY (fk_empresa) REFERENCES empresa (id_empresa)
+CREATE TABLE componente(
+id_componente INT PRIMARY KEY AUTO_INCREMENT,
+nome VARCHAR(45)
 );
 
-INSERT INTO disco VALUES (NULL, TRUE, CURRENT_TIMESTAMP, "C:" , "NTFS", 20.2, 46361795, 9361490, 37000299,4264314, 4680650, 1, 1);
-SELECT * FROM disco;
+INSERT INTO componente VALUES(NULL, "cpu");
+INSERT INTO componente VALUES(NULL, "memoria");
+INSERT INTO componente VALUES(NULL, "disco");
+INSERT INTO componente VALUES(NULL, "rede");
+
+SELECT * FROM componente;
+
+CREATE TABLE atributo(
+id_atributo INT AUTO_INCREMENT,
+nome VARCHAR(45),
+tipo_dado VARCHAR(45),
+unidade VARCHAR(45),
+fk_componente INT,
+ CONSTRAINT fk_componente_atributo FOREIGN KEY (fk_componente)
+  REFERENCES componente (id_componente),
+  PRIMARY KEY(id_atributo, fk_componente)
+);
+
+/* INSERINDO ATRIBUTOS DA CPU*/
+INSERT INTO atributo VALUES (NULL, "porcentagem_utilizada", "Float", "%", 1);
+INSERT INTO atributo VALUES (NULL, "velocidade", "porcentagem", "GHz", 1);
+
+/* INSERINDO ATRIBUTOS DA MEMÓRIA*/
+INSERT INTO atributo VALUES (NULL, "capacidade_total", "INT", "GB", 2);
+
+SELECT * FROM atributo;
+SELECT * FROM atributo JOIN componente ON fk_componente = id_componente;
+
+CREATE TABLE leitura(
+id_leitura INT PRIMARY KEY AUTO_INCREMENT,
+data_registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+valor VARCHAR(45),
+fk_atm INT,
+ CONSTRAINT fk_leitura_atm FOREIGN KEY (fk_atm)
+  REFERENCES atm (id_atm),
+fk_empresa INT,
+ CONSTRAINT fk_leitura_empresa FOREIGN KEY (fk_empresa)
+  REFERENCES empresa (id_empresa),
+  fk_atributo INT,
+ CONSTRAINT fk_leitura_atributo FOREIGN KEY (fk_atributo)
+  REFERENCES atributo (id_atributo)
+  );
   
-  CREATE TABLE rede (
-  id_rede INT PRIMARY KEY AUTO_INCREMENT,
-  aberto TINYINT,
-  data_registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  nome_host VARCHAR(255),
-  endereco_ip VARCHAR(45) ,
-  tipo_conexao VARCHAR(45) ,
-  velocidade_conexao INT,
-  bytes_enviados BIGINT,
-  bytes_recebidos BIGINT,
-  latencia_ms INT,
- fk_atm INT,
-    fk_empresa INT,
-    CONSTRAINT fk_rede_atm FOREIGN KEY (fk_atm) REFERENCES atm (id_atm),
-    CONSTRAINT fk_rede_empresa FOREIGN KEY (fk_empresa) REFERENCES empresa (id_empresa));
+  INSERT INTO leitura (id_leitura, valor, fk_atm, fk_empresa, fk_atributo, fk_componente) VALUES(NULL, "22.5", 1, 1, 1);
+  INSERT INTO leitura (id_leitura, valor, fk_atm, fk_empresa, fk_atributo, fk_componente) VALUES(NULL, "0.98", 1, 1, 2);
+  
+  /* SELECT NA LEITURA COM BASE NO NOME DO COMPONENTE */
+  SELECT * from leitura JOIN atributo ON leitura.fk_atributo = atributo.id_atributo
+  JOIN componente ON atributo.fk_componente = componente.id_componente
+  WHERE componente.nome = "cpu";
+  
+  /* SELECT NA LEITURA COM BASE NO NOME DO COMPONENTE */
+  SELECT leitura.data_registro, leitura.valor, atributo.nome FROM leitura JOIN atributo ON leitura.fk_atributo = atributo.id_atributo 
+  JOIN componente ON atributo.fk_componente = componente.id_componente
+  WHERE componente.nome = "cpu";
     
-    INSERT INTO rede VALUES (NULL, TRUE,CURRENT_TIMESTAMP, "Joao","192.168.1.1", "Ethernet", 1000, 1234567, 9876543, 4, 1, 1);
-	SELECT * FROM rede;
-  
 
    
 
