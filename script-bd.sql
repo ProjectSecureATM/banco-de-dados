@@ -2,14 +2,25 @@ CREATE DATABASE SecureATM;
 DROP DATABASE SecureATM;
 use SecureATM;
 
+CREATE TABLE plano (
+id_plano INT PRIMARY KEY AUTO_INCREMENT,
+nome VARCHAR(45));
+
+INSERT INTO plano VALUES (null, 'Standard');
+INSERT INTO plano VALUES (null, 'Professional');
+INSERT INTO plano VALUES (null, 'Ultra');
+
 CREATE TABLE empresa (
 id_empresa INT PRIMARY KEY AUTO_INCREMENT,
 razao_social VARCHAR(45),
 cnpj VARCHAR(45),
 senha VARCHAR(45),
-email VARCHAR(45)); 
+email VARCHAR(45),
+fk_plano INT,
+ CONSTRAINT fk_emp_plano FOREIGN KEY (fk_plano)
+  REFERENCES plano (id_plano));
 
-INSERT INTO empresa VALUES (NULL, "Bradesco", "34.223.147/0001-62", "bradesco123", 'bradesco@hotmail.com');
+INSERT INTO empresa VALUES (NULL, "Bradesco", "34.223.147/0001-62", "bradesco123", 'bradesco@hotmail.com', 3);
 
 CREATE TABLE associado (
 id_associado INT AUTO_INCREMENT,
