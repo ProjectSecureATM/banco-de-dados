@@ -77,12 +77,36 @@ fk_componente INT,
   PRIMARY KEY(id_atributo, fk_componente)
 );
 
-/* INSERINDO ATRIBUTOS DA CPU*/
+/* INSERINDO ATRIBUTOS DA CPU - INSIRA NESSA ORDEM*/
 INSERT INTO atributo VALUES (NULL, "porcentagem_utilizada", "Float", "%", 1);
 INSERT INTO atributo VALUES (NULL, "velocidade", "porcentagem", "GHz", 1);
+INSERT INTO atributo VALUES (NULL, "processos", "Int", "", 1);
+INSERT INTO atributo VALUES (NULL, "tempo_usuario", "BigInt", "Segundos", 1);
+INSERT INTO atributo VALUES (NULL, "tempo_sistema", "BigInt", "Segundos", 1);
 
-/* INSERINDO ATRIBUTOS DA MEMÓRIA*/
-INSERT INTO atributo VALUES (NULL, "capacidade_total", "INT", "GB", 2);
+
+/* INSERINDO ATRIBUTOS DA MEMÓRIA - INSIRA NESSA ORDEM*/
+INSERT INTO atributo VALUES (NULL, "capacidade_total", "Float", "GB", 2);
+INSERT INTO atributo VALUES (NULL, "capacidade_usada", "Float", "GB", 2);
+INSERT INTO atributo VALUES (NULL, "porcentagem_utilizada", "Float", "%", 2);
+
+/* INSERINDO ATRIBUTOS DE DISCO - INSIRA NESSA ORDEM*/
+INSERT INTO atributo VALUES (NULL, "nome_disco", "String", "", 3);
+INSERT INTO atributo VALUES (NULL, "sistema_de_arquivo", "String", "", 3);
+INSERT INTO atributo VALUES (NULL, "porcentagem_utilizada", "Float", "%", 3);
+INSERT INTO atributo VALUES (NULL, "capacidade_total", "Float", "GB", 3);
+INSERT INTO atributo VALUES (NULL, "capacidade_usada", "Float", "GB", 3);
+INSERT INTO atributo VALUES (NULL, "leituras", "BigInt", "", 3);
+INSERT INTO atributo VALUES (NULL, "escritas", "BigInt", "", 3);
+
+/* INSERINDO ATRIBUTOS DE REDE - INSIRA NESSA ORDEM*/
+INSERT INTO atributo VALUES (NULL, "nome_host", "String", "", 4);
+INSERT INTO atributo VALUES (NULL, "endereco_ip", "String", "", 4);
+INSERT INTO atributo VALUES (NULL, "tipo_conexao", "String", "", 4);
+INSERT INTO atributo VALUES (NULL, "velocidade", "Int", "Gbps", 4);
+INSERT INTO atributo VALUES (NULL, "bytes_enviados", "BigInt", "Bytes", 4);
+INSERT INTO atributo VALUES (NULL, "bytes_recebidos", "BigInt", "Byte", 4);
+INSERT INTO atributo VALUES (NULL, "latencia", "Int", "Ms", 4);
 
 SELECT * FROM atributo;
 SELECT * FROM atributo JOIN componente ON fk_componente = id_componente;
