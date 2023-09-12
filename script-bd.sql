@@ -7,8 +7,8 @@ id_plano INT PRIMARY KEY AUTO_INCREMENT,
 nome VARCHAR(45));
 
 INSERT INTO plano VALUES (null, 'Standard');
-INSERT INTO plano VALUES (null, 'Professional');
-INSERT INTO plano VALUES (null, 'Ultra');
+INSERT INTO plano VALUES (null, 'Advanced');
+INSERT INTO plano VALUES (null, 'Premium');
 
 CREATE TABLE empresa (
 id_empresa INT PRIMARY KEY AUTO_INCREMENT,
