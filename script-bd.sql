@@ -74,44 +74,36 @@ descricao VARCHAR(45)
 
 /* INSERINDO ATRIBUTOS DA CPU - INSIRA NESSA ORDEM*/
 INSERT INTO componente VALUES (NULL, "cpu", "%", "porcentagem_utilizada");
-INSERT INTO atributo VALUES (NULL, "velocidade", "porcentagem", "GHz", 1);
-INSERT INTO atributo VALUES (NULL, "processos", "Int", "", 1);
-INSERT INTO atributo VALUES (NULL, "tempo_usuario", "BigInt", "Segundos", 1);
-INSERT INTO atributo VALUES (NULL, "tempo_sistema", "BigInt", "Segundos", 1);
+INSERT INTO componente VALUES (NULL, "cpu", "GHz", "velocidade");
+INSERT INTO componente VALUES (NULL, "cpu", "", "processos");
+INSERT INTO componente VALUES (NULL, "cpu", "Segundos", "tempo_usuario");
+INSERT INTO componente VALUES (NULL, "cpu", "Segundos", "tempo_sistema");
 
 
 /* INSERINDO ATRIBUTOS DA MEMÓRIA - INSIRA NESSA ORDEM*/
-INSERT INTO atributo VALUES (NULL, "capacidade_total", "Float", "GB", 2);
-INSERT INTO atributo VALUES (NULL, "capacidade_usada", "Float", "GB", 2);
-INSERT INTO atributo VALUES (NULL, "porcentagem_utilizada", "Float", "%", 2);
+INSERT INTO componente VALUES (NULL, "memoria", "GB", "capacidade_total");
+INSERT INTO componente VALUES (NULL, "memoria", "GB", "capacidade_usada");
+INSERT INTO componente VALUES (NULL, "memoria", "%", "porcentagem_utilizada");
 
 /* INSERINDO ATRIBUTOS DE DISCO - INSIRA NESSA ORDEM*/
-INSERT INTO atributo VALUES (NULL, "nome_disco", "String", "", 3);
-INSERT INTO atributo VALUES (NULL, "sistema_de_arquivo", "String", "", 3);
-INSERT INTO atributo VALUES (NULL, "porcentagem_utilizada", "Float", "%", 3);
-INSERT INTO atributo VALUES (NULL, "capacidade_total", "Float", "GB", 3);
-INSERT INTO atributo VALUES (NULL, "capacidade_usada", "Float", "GB", 3);
-INSERT INTO atributo VALUES (NULL, "leituras", "BigInt", "", 3);
-INSERT INTO atributo VALUES (NULL, "escritas", "BigInt", "", 3);
+INSERT INTO componente VALUES (NULL, "disco", "", "nome_disco");
+INSERT INTO componente VALUES (NULL, "disco", "", "sistema_de_arquivo");
+INSERT INTO componente VALUES (NULL, "disco", "%", "porcentagem_utilizada");
+INSERT INTO componente VALUES (NULL, "disco", "GB", "capacidade_total");
+INSERT INTO componente VALUES (NULL, "disco", "GB", "capacidade_total");
+INSERT INTO componente VALUES (NULL, "disco", "", "leituras");
+INSERT INTO componente VALUES (NULL, "disco", "", "escritas");
 
 /* INSERINDO ATRIBUTOS DE REDE - INSIRA NESSA ORDEM*/
-INSERT INTO atributo VALUES (NULL, "nome_host", "String", "", 4);
-INSERT INTO atributo VALUES (NULL, "endereco_ip", "String", "", 4);
-INSERT INTO atributo VALUES (NULL, "tipo_conexao", "String", "", 4);
-INSERT INTO atributo VALUES (NULL, "velocidade", "Int", "Gbps", 4);
-INSERT INTO atributo VALUES (NULL, "bytes_enviados", "BigInt", "Bytes", 4);
-INSERT INTO atributo VALUES (NULL, "bytes_recebidos", "BigInt", "Byte", 4);
-INSERT INTO atributo VALUES (NULL, "latencia", "Int", "Ms", 4);
-
-INSERT INTO componente VALUES(NULL, "cpu");
-INSERT INTO componente VALUES(NULL, "memoria");
-INSERT INTO componente VALUES(NULL, "disco");
-INSERT INTO componente VALUES(NULL, "rede");
+INSERT INTO componente VALUES (NULL, "rede", "", "nome_host");
+INSERT INTO componente VALUES (NULL, "rede", "String", "endereco_ip");
+INSERT INTO componente VALUES (NULL, "rede", "String", "tipo_conexao");
+INSERT INTO componente VALUES (NULL, "rede", "Gbps", "velocidade");
+INSERT INTO componente VALUES (NULL, "rede", "Bytes", "bytes_enviados");
+INSERT INTO componente VALUES (NULL, "rede", "Byte", "bytes_recebidos");
+INSERT INTO componente VALUES (NULL, "rede", "Ms", "latencia");
 
 SELECT * FROM componente;
-
-SELECT * FROM atributo;
-SELECT * FROM atributo JOIN componente ON fk_componente = id_componente;
 
 CREATE TABLE leitura(
 id_leitura INT PRIMARY KEY AUTO_INCREMENT,
@@ -120,12 +112,13 @@ valor VARCHAR(45),
 fk_atm INT,
  CONSTRAINT fk_leitura_atm FOREIGN KEY (fk_atm)
   REFERENCES atm (id_atm),
+  fk_componente INT,
  CONSTRAINT fk_leitura_componente FOREIGN KEY (fk_componente)
   REFERENCES componente (id_componente)
   );
   
-  INSERT INTO leitura (id_leitura, valor, fk_atm, fk_componente) VALUES(NULL, "22.5", 1, 1, 1);
-  INSERT INTO leitura (id_leitura, valor, fk_atm, fk_componente) VALUES(NULL, "0.98", 1, 1, 2);
+  INSERT INTO leitura (id_leitura, valor, fk_atm, fk_componente) VALUES(NULL, "22.5", 1, 1);
+  INSERT INTO leitura (id_leitura, valor, fk_atm, fk_componente) VALUES(NULL, "0.98", 1, 1);
   
   /* SELECT NA LEITURA COM BASE NO NOME DO COMPONENTE */
   SELECT * from leitura JOIN componente ON leitura.fk_componente = componente.id_componente
