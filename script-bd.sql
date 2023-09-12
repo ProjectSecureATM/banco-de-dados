@@ -7,8 +7,8 @@ id_plano INT PRIMARY KEY AUTO_INCREMENT,
 nome VARCHAR(45));
 
 INSERT INTO plano VALUES (null, 'Standard');
-INSERT INTO plano VALUES (null, 'Professional');
-INSERT INTO plano VALUES (null, 'Ultra');
+INSERT INTO plano VALUES (null, 'Advanced');
+INSERT INTO plano VALUES (null, 'Premium');
 
 CREATE TABLE empresa (
 id_empresa INT PRIMARY KEY AUTO_INCREMENT,
@@ -67,29 +67,13 @@ SELECT * FROM atm;
 
 CREATE TABLE componente(
 id_componente INT PRIMARY KEY AUTO_INCREMENT,
-nome VARCHAR(45)
-);
-
-INSERT INTO componente VALUES(NULL, "cpu");
-INSERT INTO componente VALUES(NULL, "memoria");
-INSERT INTO componente VALUES(NULL, "disco");
-INSERT INTO componente VALUES(NULL, "rede");
-
-SELECT * FROM componente;
-
-CREATE TABLE atributo(
-id_atributo INT AUTO_INCREMENT,
 nome VARCHAR(45),
-tipo_dado VARCHAR(45),
 unidade VARCHAR(45),
-fk_componente INT,
- CONSTRAINT fk_componente_atributo FOREIGN KEY (fk_componente)
-  REFERENCES componente (id_componente),
-  PRIMARY KEY(id_atributo, fk_componente)
+descricao VARCHAR(45)
 );
 
 /* INSERINDO ATRIBUTOS DA CPU - INSIRA NESSA ORDEM*/
-INSERT INTO atributo VALUES (NULL, "porcentagem_utilizada", "Float", "%", 1);
+INSERT INTO componente VALUES (NULL, "cpu", "%", "porcentagem_utilizada");
 INSERT INTO atributo VALUES (NULL, "velocidade", "porcentagem", "GHz", 1);
 INSERT INTO atributo VALUES (NULL, "processos", "Int", "", 1);
 INSERT INTO atributo VALUES (NULL, "tempo_usuario", "BigInt", "Segundos", 1);
@@ -119,6 +103,13 @@ INSERT INTO atributo VALUES (NULL, "bytes_enviados", "BigInt", "Bytes", 4);
 INSERT INTO atributo VALUES (NULL, "bytes_recebidos", "BigInt", "Byte", 4);
 INSERT INTO atributo VALUES (NULL, "latencia", "Int", "Ms", 4);
 
+INSERT INTO componente VALUES(NULL, "cpu");
+INSERT INTO componente VALUES(NULL, "memoria");
+INSERT INTO componente VALUES(NULL, "disco");
+INSERT INTO componente VALUES(NULL, "rede");
+
+SELECT * FROM componente;
+
 SELECT * FROM atributo;
 SELECT * FROM atributo JOIN componente ON fk_componente = id_componente;
 
@@ -129,25 +120,19 @@ valor VARCHAR(45),
 fk_atm INT,
  CONSTRAINT fk_leitura_atm FOREIGN KEY (fk_atm)
   REFERENCES atm (id_atm),
-fk_empresa INT,
- CONSTRAINT fk_leitura_empresa FOREIGN KEY (fk_empresa)
-  REFERENCES empresa (id_empresa),
-  fk_atributo INT,
- CONSTRAINT fk_leitura_atributo FOREIGN KEY (fk_atributo)
-  REFERENCES atributo (id_atributo)
+ CONSTRAINT fk_leitura_componente FOREIGN KEY (fk_componente)
+  REFERENCES componente (id_componente)
   );
   
-  INSERT INTO leitura (id_leitura, valor, fk_atm, fk_empresa, fk_atributo, fk_componente) VALUES(NULL, "22.5", 1, 1, 1);
-  INSERT INTO leitura (id_leitura, valor, fk_atm, fk_empresa, fk_atributo, fk_componente) VALUES(NULL, "0.98", 1, 1, 2);
+  INSERT INTO leitura (id_leitura, valor, fk_atm, fk_componente) VALUES(NULL, "22.5", 1, 1, 1);
+  INSERT INTO leitura (id_leitura, valor, fk_atm, fk_componente) VALUES(NULL, "0.98", 1, 1, 2);
   
   /* SELECT NA LEITURA COM BASE NO NOME DO COMPONENTE */
-  SELECT * from leitura JOIN atributo ON leitura.fk_atributo = atributo.id_atributo
-  JOIN componente ON atributo.fk_componente = componente.id_componente
+  SELECT * from leitura JOIN componente ON leitura.fk_componente = componente.id_componente
   WHERE componente.nome = "cpu";
   
   /* SELECT NA LEITURA COM BASE NO NOME DO COMPONENTE */
-  SELECT leitura.data_registro, leitura.valor, atributo.nome FROM leitura JOIN atributo ON leitura.fk_atributo = atributo.id_atributo 
-  JOIN componente ON atributo.fk_componente = componente.id_componente
+  SELECT leitura.data_registro, leitura.valor, componente.nome FROM leitura JOIN componente ON leitura.fk_componente = componente.id_componente
   WHERE componente.nome = "cpu";
     
 
