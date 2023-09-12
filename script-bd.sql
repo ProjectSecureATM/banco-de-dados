@@ -90,7 +90,7 @@ INSERT INTO componente VALUES (NULL, "disco", "", "nome_disco");
 INSERT INTO componente VALUES (NULL, "disco", "", "sistema_de_arquivo");
 INSERT INTO componente VALUES (NULL, "disco", "%", "porcentagem_utilizada");
 INSERT INTO componente VALUES (NULL, "disco", "GB", "capacidade_total");
-INSERT INTO componente VALUES (NULL, "disco", "GB", "capacidade_total");
+INSERT INTO componente VALUES (NULL, "disco", "GB", "capacidade_usada");
 INSERT INTO componente VALUES (NULL, "disco", "", "leituras");
 INSERT INTO componente VALUES (NULL, "disco", "", "escritas");
 
@@ -102,6 +102,15 @@ INSERT INTO componente VALUES (NULL, "rede", "Gbps", "velocidade");
 INSERT INTO componente VALUES (NULL, "rede", "Bytes", "bytes_enviados");
 INSERT INTO componente VALUES (NULL, "rede", "Byte", "bytes_recebidos");
 INSERT INTO componente VALUES (NULL, "rede", "Ms", "latencia");
+
+/* INSERINDO ATRIBUTOS DE SENSOR - INSIRA NESSA ORDEM*/
+INSERT INTO componente VALUES (NULL, "sensor", "Boolean", "bateria_estado");
+INSERT INTO componente VALUES (NULL, "sensor", "Data", "boot_tempo");
+INSERT INTO componente VALUES (NULL, "sensor", "%", "porcentagem_bateria");
+
+/* INSERINDO ATRIBUTOS DE JANELA DE SISTEMAS - INSIRA NESSA ORDEM*/
+INSERT INTO componente VALUES (NULL, "janela_de_sistemas", "String", "janela_ativa");
+
 
 SELECT * FROM componente;
 
@@ -124,10 +133,33 @@ fk_atm INT,
   SELECT * from leitura JOIN componente ON leitura.fk_componente = componente.id_componente
   WHERE componente.nome = "cpu";
   
-  /* SELECT NA LEITURA COM BASE NO NOME DO COMPONENTE */
-  SELECT leitura.data_registro, leitura.valor, componente.nome FROM leitura JOIN componente ON leitura.fk_componente = componente.id_componente
+  SELECT * from leitura;
+  
+  /* SELECT NA LEITURA COM BASE NA CPU */
+  SELECT leitura.data_registro, leitura.valor, componente.nome, componente.descricao, componente.unidade FROM leitura JOIN componente ON leitura.fk_componente = componente.id_componente
   WHERE componente.nome = "cpu";
-    
+  
+  /* SELECT NA LEITURA COM BASE NA MEMORIA */
+  SELECT leitura.data_registro, leitura.valor, componente.nome, componente.descricao, componente.unidade FROM leitura JOIN componente ON leitura.fk_componente = componente.id_componente
+  WHERE componente.nome = "memoria";
+  
+  /* SELECT NA LEITURA COM BASE NO DISCO */
+  SELECT leitura.data_registro, leitura.valor, componente.nome, componente.descricao, componente.unidade FROM leitura JOIN componente ON leitura.fk_componente = componente.id_componente
+  WHERE componente.nome = "disco";
+  
+  /* SELECT NA LEITURA COM BASE NO DISCO */
+  SELECT leitura.data_registro, leitura.valor, componente.nome, componente.descricao, componente.unidade FROM leitura JOIN componente ON leitura.fk_componente = componente.id_componente
+  WHERE componente.nome = "rede";
+  
+  /* SELECT NA LEITURA COM BASE NA JANELA DE SISTEMAS */
+  SELECT leitura.data_registro, leitura.valor, componente.nome, componente.descricao, componente.unidade FROM leitura JOIN componente ON leitura.fk_componente = componente.id_componente
+  WHERE componente.nome = "janela_de_sistemas";
+  
+  /* SELECT NA LEITURA COM BASE NO SENSOR */
+  SELECT leitura.data_registro, leitura.valor, componente.nome, componente.descricao, componente.unidade FROM leitura JOIN componente ON leitura.fk_componente = componente.id_componente
+  WHERE componente.nome = "sensor";
+  
+Select * from leitura;
 
    
 
