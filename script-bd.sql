@@ -12,10 +12,11 @@ INSERT INTO plano VALUES (null, 'Premium');
 
 CREATE TABLE empresa (
 id_empresa INT PRIMARY KEY AUTO_INCREMENT,
-razao_social VARCHAR(45),
-cnpj VARCHAR(45),
+cnpj CHAR(14),
+nome VARCHAR(45),
 senha VARCHAR(45),
 email VARCHAR(45),
+razao_social VARCHAR(45),
 fk_plano INT,
  CONSTRAINT fk_emp_plano FOREIGN KEY (fk_plano)
   REFERENCES plano (id_plano));
@@ -38,6 +39,7 @@ id_funcionario INT AUTO_INCREMENT,
 nome VARCHAR(45),
 email VARCHAR(45),
 senha VARCHAR(64),
+dt_nasc CHAR(10),
 fk_empresa INT,
  CONSTRAINT fk_emp_funcionario FOREIGN KEY (fk_empresa)
   REFERENCES empresa (id_empresa),
@@ -55,7 +57,7 @@ fabricante VARCHAR(45),
 so VARCHAR(45),
 processador VARCHAR(45),
 ram VARCHAR(45),
-qtd_disco VARCHAR(45),
+qtd_disco INT,
 fk_empresa INT,
  CONSTRAINT fk_emp_atm FOREIGN KEY (fk_empresa)
   REFERENCES empresa (id_empresa),
@@ -68,7 +70,7 @@ SELECT * FROM atm;
 CREATE TABLE componente(
 id_componente INT PRIMARY KEY AUTO_INCREMENT,
 nome VARCHAR(45),
-unidade VARCHAR(45),
+unidade INT,
 descricao VARCHAR(45)
 );
 
@@ -116,8 +118,8 @@ SELECT * FROM componente;
 
 CREATE TABLE leitura(
 id_leitura INT PRIMARY KEY AUTO_INCREMENT,
-data_registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-valor VARCHAR(45),
+data_registro DATETIME,
+valor FLOAT,
 fk_atm INT,
  CONSTRAINT fk_leitura_atm FOREIGN KEY (fk_atm)
   REFERENCES atm (id_atm),
