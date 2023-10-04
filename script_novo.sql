@@ -10,6 +10,20 @@ CREATE TABLE empresa (
     razao_social VARCHAR(45)
 );
 
+CREATE TABLE codigoEmpresa (
+	id INT AUTO_INCREMENT PRIMARY KEY,
+    Código INT, 
+    fkEmpresaCod INT,
+    FOREIGN KEY (fkEmpresaCod) REFERENCES empresa(id)
+    );
+
+insert into empresa values
+(null, 012012012012, 'bradesco', 1515.1515, 'Roberto Silva'),
+(null, 012012012012, 'santander', 1515.1515, 'Roberto nogueira');
+
+select * from empresa;
+
+
 CREATE TABLE agencia (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nAgencia VARCHAR(10),
@@ -17,6 +31,10 @@ CREATE TABLE agencia (
     fkEmpresa INT,
     FOREIGN KEY (fkEmpresa) REFERENCES empresa(id)
 );
+
+insert into agencia values
+(null, 123-0, 10, 1),
+(null, 123-1, 15, 2);
 
 CREATE TABLE funcionario (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -99,3 +117,4 @@ CREATE TABLE avisos (
 
 
 select * from funcionario;
+
