@@ -22,7 +22,6 @@ CREATE TABLE funcionario (
     id INT AUTO_INCREMENT PRIMARY KEY,
     email VARCHAR(45),
     senha VARCHAR(45),
-    DT_nasc CHAR(10),
     nome VARCHAR(45),
     fkAgencia INT, 
     FOREIGN KEY (fkagencia) REFERENCES agencia(id)
@@ -97,3 +96,6 @@ CREATE TABLE avisos (
     fkLeitura INT, 
     FOREIGN KEY (fkLeitura) REFERENCES leitura(idLeitura)
 );
+
+
+select * from funcionario;
