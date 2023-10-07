@@ -33,8 +33,7 @@ CREATE TABLE agencia (
 );
 
 insert into agencia values
-(null, 123-0, 10, 1),
-(null, 123-1, 15, 2);
+(null, 123-0, 10, 1);
 
 CREATE TABLE funcionario (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -83,8 +82,8 @@ CREATE TABLE atm (
     id INT AUTO_INCREMENT PRIMARY KEY,
     modelo VARCHAR(45),
     so VARCHAR(45),
-    processador INT,
-    ram INT,
+    processador varchar(45),
+    ram varchar(45),
     qtd_discos INT,
     fabricante VARCHAR(45),
     fkAgenciaATM INT,
@@ -118,3 +117,6 @@ CREATE TABLE avisos (
 
 select * from funcionario;
 
+select * from atm;
+
+select * from agencia;
