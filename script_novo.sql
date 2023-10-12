@@ -3,120 +3,133 @@ create database SecureATM;
 use SecureATM;
 
 CREATE TABLE empresa (
-    id INT AUTO_INCREMENT PRIMARY KEY,
+    idEmp INT AUTO_INCREMENT PRIMARY KEY,
     CNPJ CHAR(14),
     nome VARCHAR(45),
-    senha VARCHAR(45),
     razao_social VARCHAR(45)
 );
 
 CREATE TABLE codigoEmpresa (
-	id INT AUTO_INCREMENT PRIMARY KEY,
+	idCodEmp INT AUTO_INCREMENT PRIMARY KEY,
     Código INT, 
     fkEmpresaCod INT,
-    FOREIGN KEY (fkEmpresaCod) REFERENCES empresa(id)
+    FOREIGN KEY (fkEmpresaCod) REFERENCES empresa(idEmp)
     );
 
 insert into empresa values
-(null, 012012012012, 'bradesco', 1515.1515, 'Roberto Silva'),
-(null, 012012012012, 'santander', 1515.1515, 'Roberto nogueira');
+(null, 012012012012, 'bradesco', 'Roberto Silva'),
+(null, 012012012012, 'santander', 'Roberto nogueira');
 
 select * from empresa;
 
 
 CREATE TABLE agencia (
-    id INT AUTO_INCREMENT PRIMARY KEY,
+    idAgen INT AUTO_INCREMENT PRIMARY KEY,
     nAgencia VARCHAR(10),
-    QtdATM INT,
     fkEmpresa INT,
-    FOREIGN KEY (fkEmpresa) REFERENCES empresa(id)
+    FOREIGN KEY (fkEmpresa) REFERENCES empresa(idEmp)
 );
 
+CREATE TABLE codigoAgencia (
+	idCodAgen INT AUTO_INCREMENT PRIMARY KEY,
+    Código INT, 
+    fkAgenciaCod INT,
+    FOREIGN KEY (fkAgenciaCod) REFERENCES agencia(idAgen)
+    );
+
 insert into agencia values
-(null, 123-0, 10, 1);
+(null, 123-0, 1);
 
 CREATE TABLE funcionario (
-    id INT AUTO_INCREMENT PRIMARY KEY,
+    idFunc INT AUTO_INCREMENT PRIMARY KEY,
     email VARCHAR(45),
     senha VARCHAR(45),
     nome VARCHAR(45),
     fkAgencia INT, 
-    FOREIGN KEY (fkagencia) REFERENCES agencia(id)
+    FOREIGN KEY (fkagencia) REFERENCES agencia(idAgen)
 );
 
 CREATE TABLE representante_legal (
     RepresentanteLegal INT AUTO_INCREMENT PRIMARY KEY,
     Empresa_idFuncionario INT,
     Funcionario_FKAgencFunc INT,
-    FOREIGN KEY (Empresa_idFuncionario) REFERENCES empresa(id),
-    FOREIGN KEY (Funcionario_FKAgencFunc) REFERENCES funcionario(id)
-);
-
-CREATE TABLE associado (
-    id_associado INT AUTO_INCREMENT PRIMARY KEY,
-    email VARCHAR(45),
-    fk_empresa INT,
-    FOREIGN KEY (fk_empresa) REFERENCES empresa(id)
+    email varchar(45),
+    senha char(8),
+    FOREIGN KEY (Empresa_idFuncionario) REFERENCES empresa(idEmp),
+    FOREIGN KEY (Funcionario_FKAgencFunc) REFERENCES funcionario(idFunc)
 );
 
 CREATE TABLE localizacao (
-    id INT AUTO_INCREMENT PRIMARY KEY,
+    idLoc INT AUTO_INCREMENT PRIMARY KEY,
     cep CHAR(14),
     rua VARCHAR(45),
     numero INT,
     estado CHAR(2),
     pais VARCHAR(45),
     fkAgenciaLoc INT,
-    FOREIGN KEY (fkAgenciaLoc) REFERENCES agencia(id)
+    FOREIGN KEY (fkAgenciaLoc) REFERENCES agencia(idAgen)
 );
 
 CREATE TABLE plano (
-    id INT AUTO_INCREMENT PRIMARY KEY,
+    idPlano INT AUTO_INCREMENT PRIMARY KEY,
     tipo INT,
     nome VARCHAR(45),
     fkAgenciaPlan INT,
-    FOREIGN KEY (fkAgenciaPlan) REFERENCES agencia(id)
+    FOREIGN KEY (fkAgenciaPlan) REFERENCES agencia(idAgen)
 );
 
-CREATE TABLE atm (
+CREATE TABLE ATM (
+    idATM INT AUTO_INCREMENT PRIMARY KEY,
+    Modelo VARCHAR(45),
+    Fabricante VARCHAR(45),
+    AgenciaID INT,
+    FOREIGN KEY (AgenciaID) REFERENCES agencia(idAgen)
+);
+
+CREATE TABLE CodigoComponentes (
+    idCodComponentes INT AUTO_INCREMENT PRIMARY KEY,
+    Componente VARCHAR(45)
+);
+
+CREATE TABLE Tipo (
+    idTipo INT AUTO_INCREMENT PRIMARY KEY,
+    UnidadeMedida INT
+);
+
+CREATE TABLE Componentes (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    modelo VARCHAR(45),
-    so VARCHAR(45),
-    processador varchar(45),
-    ram varchar(45),
-    qtd_discos INT,
-    fabricante VARCHAR(45),
-    fkAgenciaATM INT,
-    FOREIGN KEY (fkAgenciaATM) REFERENCES agencia(id)
+    Capacidade INT,
+    Descricao VARCHAR(45),
+    CodigoComponenteID INT,
+    ATMID INT,
+    TipoID INT,
+    FOREIGN KEY (CodigoComponenteID) REFERENCES CodigoComponentes(idCodComponentes),
+    FOREIGN KEY (ATMID) REFERENCES ATM(idATM),
+    FOREIGN KEY (TipoID) REFERENCES Tipo(idTipo)
 );
 
-CREATE TABLE componentes (
-    idComponente INT AUTO_INCREMENT PRIMARY KEY,
-    nome VARCHAR(45),
-    unidade INT,
-    descricao VARCHAR(45)
+CREATE TABLE Leitura (
+    Leitura_ID INT PRIMARY KEY,
+    DataRegistro DATETIME,
+    Valor FLOAT,
+    Componente_ID INT,
+    ATM_ID INT
 );
 
-CREATE TABLE leitura (
-    idLeitura INT AUTO_INCREMENT PRIMARY KEY,
-    data_registro DATETIME,
-    valor FLOAT,
-    fk_atm INT, 
-    fk_componente INT, 
-    FOREIGN KEY (fk_atm) REFERENCES atm(id), 
-    FOREIGN KEY (fk_componente) REFERENCES componentes(idComponente)
+CREATE TABLE Escalonamento (
+    Escalonamento_ID INT PRIMARY KEY,
+    TipoEmergencia VARCHAR(45)
 );
 
-CREATE TABLE avisos (
-    idAvisos INT AUTO_INCREMENT PRIMARY KEY,
-    escalonamento INT,
-    fkLeitura INT, 
-    FOREIGN KEY (fkLeitura) REFERENCES leitura(idLeitura)
+CREATE TABLE Aviso (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    Leitura_ID INT,
+    DataHora DATETIME,
+    Escalonamento_ID INT,
+    FOREIGN KEY (Leitura_ID) REFERENCES Leitura(Leitura_ID),
+    FOREIGN KEY (Escalonamento_ID) REFERENCES Escalonamento(Escalonamento_ID)
+    
 );
 
 
-select * from funcionario;
 
-select * from atm;
-
-select * from agencia;
