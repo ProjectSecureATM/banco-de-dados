@@ -108,12 +108,20 @@ CREATE TABLE Componentes (
     FOREIGN KEY (TipoID) REFERENCES Tipo(idTipo)
 );
 
+CREATE TABLE Processos (
+id INT PRIMARY KEY AUTO_INCREMENT,
+PID INT,
+nome varchar(45)
+);
+
 CREATE TABLE Leitura (
-    Leitura_ID INT PRIMARY KEY,
+    LeituraID INT PRIMARY KEY,
     DataRegistro DATETIME,
     Valor FLOAT,
     Componente_ID INT,
-    ATM_ID INT
+    ATM_ID INT,
+    FOREIGN KEY (Componente_ID) REFERENCES Componentes(id),
+    FOREIGN KEY (ATM_ID) REFERENCES ATM(idATM)
 );
 
 CREATE TABLE Escalonamento (
@@ -130,6 +138,7 @@ CREATE TABLE Aviso (
     FOREIGN KEY (Escalonamento_ID) REFERENCES Escalonamento(Escalonamento_ID)
     
 );
+
 
 
 
