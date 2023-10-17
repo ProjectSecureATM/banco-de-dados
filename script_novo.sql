@@ -134,7 +134,7 @@ CREATE TABLE Aviso (
     Leitura_ID INT,
     DataHora DATETIME,
     Escalonamento_ID INT,
-    FOREIGN KEY (Leitura_ID) REFERENCES Leitura(Leitura_ID),
+    FOREIGN KEY (Leitura_ID) REFERENCES Leitura(LeituraID),
     FOREIGN KEY (Escalonamento_ID) REFERENCES Escalonamento(Escalonamento_ID)
     
 );
