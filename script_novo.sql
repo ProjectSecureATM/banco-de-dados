@@ -117,7 +117,7 @@ CREATE TABLE Componentes (
 );
 
 CREATE TABLE Leitura (
-    LeituraID INT PRIMARY KEY,
+    LeituraID INT PRIMARY KEY AUTO_INCREMENT,
     DataRegistro DATETIME,
     Valor FLOAT,
     Componente_ID INT,
