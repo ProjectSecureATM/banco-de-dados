@@ -78,12 +78,20 @@ CREATE TABLE plano (
     FOREIGN KEY (fkAgenciaPlan) REFERENCES agencia(idAgen)
 );
 
+CREATE TABLE Processos (
+id INT PRIMARY KEY AUTO_INCREMENT,
+PID INT,
+nome varchar(45)
+);
+
 CREATE TABLE ATM (
     idATM INT AUTO_INCREMENT PRIMARY KEY,
     Modelo VARCHAR(45),
     Fabricante VARCHAR(45),
     AgenciaID INT,
-    FOREIGN KEY (AgenciaID) REFERENCES agencia(idAgen)
+    ProcessosID INT,
+    FOREIGN KEY (AgenciaID) REFERENCES agencia(idAgen),
+    FOREIGN KEY (ProcessosID) REFERENCES Processos(id)
 );
 
 CREATE TABLE CodigoComponentes (
@@ -106,12 +114,6 @@ CREATE TABLE Componentes (
     FOREIGN KEY (CodigoComponenteID) REFERENCES CodigoComponentes(idCodComponentes),
     FOREIGN KEY (ATMID) REFERENCES ATM(idATM),
     FOREIGN KEY (TipoID) REFERENCES Tipo(idTipo)
-);
-
-CREATE TABLE Processos (
-id INT PRIMARY KEY AUTO_INCREMENT,
-PID INT,
-nome varchar(45)
 );
 
 CREATE TABLE Leitura (
@@ -138,7 +140,3 @@ CREATE TABLE Aviso (
     FOREIGN KEY (Escalonamento_ID) REFERENCES Escalonamento(Escalonamento_ID)
     
 );
-
-
-
-
