@@ -98,6 +98,11 @@ CREATE TABLE CodigoComponentes (
     idCodComponentes INT AUTO_INCREMENT PRIMARY KEY,
     Componente VARCHAR(45)
 );
+INSERT INTO CodigoComponentes VALUES 
+(null, "RAM"),
+(null, "Disco"),
+(null, "CPU"),
+(null, "Latência Rede");
 
 CREATE TABLE Tipo (
     idTipo INT AUTO_INCREMENT PRIMARY KEY,
