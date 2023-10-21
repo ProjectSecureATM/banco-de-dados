@@ -20,9 +20,6 @@ insert into empresa values
 (null, 012012012012, 'bradesco', 'Roberto Silva'),
 (null, 012012012012, 'santander', 'Roberto nogueira');
 
-select * from empresa;
-
-
 CREATE TABLE agencia (
     idAgen INT AUTO_INCREMENT,
     nAgencia VARCHAR(10),
@@ -53,13 +50,13 @@ CREATE TABLE funcionario (
 
 CREATE TABLE representante_legal (
     RepresentanteLegal INT AUTO_INCREMENT,
-    fkEmpFun INT,
+    fkEmpFunc INT,
     FKAgencFunc INT,
     email varchar(45),
     senha char(8),
     FOREIGN KEY (fkEmpFunc) REFERENCES empresa(idEmp),
     FOREIGN KEY (FKAgencFunc) REFERENCES funcionario(idFunc),
-    CONSTRAINT pkRPLegal PRIMARY KEY (RepresentanteLegal, fkEmpFun, FKAgencFunc)
+    CONSTRAINT pkRPLegal PRIMARY KEY (RepresentanteLegal, fkEmpFunc, FKAgencFunc)
 );
 
 CREATE TABLE localizacao (
@@ -89,9 +86,12 @@ CREATE TABLE ATM (
     fkAgenciaEmpresa INT,
     FOREIGN KEY (AgenciaID) REFERENCES agencia(idAgen),
     FOREIGN KEY (fkAgenciaEmpresa) REFERENCES Agencia(idAgen),
-     CONSTRAINT pkATMAgen PRIMARY KEY (idATM, AgenciaID),
-     CONSTRAINT pkAgenEmpATM PRIMARY KEY (idATM, fkAgenciaEmpresa)
+     CONSTRAINT pkATMAgen PRIMARY KEY (idATM, AgenciaID, fkAgenciaEmpresa)
+     #CONSTRAINT pkAgenEmpATM PRIMARY KEY (idATM, fkAgenciaEmpresa)
 );
+
+INSERT INTO ATM VALUES
+(null," Diebold Nixdorf 280", "Diebold Nixdorf", 1,1);
 
 CREATE TABLE Processos (
 id INT AUTO_INCREMENT,
@@ -99,7 +99,7 @@ PID INT,
 nome varchar(45),
 fkATM INT,
 FOREIGN KEY (fkATM) REFERENCES ATM(idATM),
-     CONSTRAINT pkATMAPro PRIMARY KEY (id, idATM)
+     CONSTRAINT pkATMAPro PRIMARY KEY (id, fkATM)
 );
 
 CREATE TABLE CodigoComponentes (
@@ -117,6 +117,10 @@ CREATE TABLE Tipo (
     UnidadeMedida INT
 );
 
+INSERT INTO Tipo VALUES
+(null, 1 ),
+(null, 2 );
+
 CREATE TABLE Componentes (
     id INT AUTO_INCREMENT,
     Capacidade INT,
@@ -130,16 +134,21 @@ CREATE TABLE Componentes (
     CONSTRAINT  pkCompATM PRIMARY KEY (id, ATMID)
 );
 
+INSERT INTO Componentes VALUES
+(null, 16 , "memória" , 1 , 1 , 1),
+(null, 16 , "memória_disco" , 2 , 1 , 2),
+(null, 100 , "processador" , 3 , 1 , 1);
+
 CREATE TABLE Leitura (
-    LeituraID INT PRIMARY KEY AUTO_INCREMENT,
+    LeituraID INT AUTO_INCREMENT,
     DataRegistro DATETIME,
     Valor FLOAT,
     Componente_ID INT,
     ATMComp_ID INT,
     FOREIGN KEY (Componente_ID) REFERENCES Componentes(id),
-    FOREIGN KEY (ATM_ID) REFERENCES ATM(idATM),
-     CONSTRAINT pkLeiCom PRIMARY KEY (LeituraID, Componente_ID),
-     CONSTRAINT pkLeiATMComp PRIMARY KEY (LeituraID, ATMComp_ID)
+    FOREIGN KEY (ATMComp_ID) REFERENCES ATM(idATM),
+     CONSTRAINT pkLeiCom PRIMARY KEY (LeituraID, Componente_ID, ATMComp_ID)
+     #CONSTRAINT pkLeiATMComp PRIMARY KEY (LeituraID, ATMComp_ID)
 );
 
 CREATE TABLE Escalonamento (
@@ -156,3 +165,20 @@ CREATE TABLE Aviso (
     FOREIGN KEY (Escalonamento_ID) REFERENCES Escalonamento(Escalonamento_ID)
     
 );
+
+select*from agencia;
+select*from atm;
+select*from aviso;
+select*from codigoagencia;
+select*from codigocomponentes;
+select*from codigoempresa;
+select*from componentes;
+select*from empresa;
+select*from escalonamento;
+select*from funcionario;
+select*from leitura;
+select*from localização;
+select*from plano;
+select*from processos;
+select*from representante_legal;
+select*from tipo;
