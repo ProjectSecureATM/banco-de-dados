@@ -1,3 +1,4 @@
+drop database secureatm;
 create database SecureATM;
 
 use SecureATM;
@@ -169,10 +170,11 @@ CREATE TABLE Aviso (
 CREATE TABLE relatarProblema (
 idRelatarProblema INT PRIMARY KEY AUTO_INCREMENT,
 nome varchar(45),
+sobrenome varchar(45),
 email varchar(50),
 tituloProblema varchar(45),
 descricao varchar(100),
-dataHoraProblema date 
+dataHoraProblema datetime 
 );
 
 select*from agencia;
