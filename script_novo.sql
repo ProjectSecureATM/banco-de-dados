@@ -166,6 +166,15 @@ CREATE TABLE Aviso (
     
 );
 
+CREATE TABLE relatarProblema (
+idRelatarProblema INT PRIMARY KEY AUTO_INCREMENT,
+nome varchar(45),
+email varchar(50),
+tituloProblema varchar(45),
+descricao varchar(100),
+dataHoraProblema date 
+);
+
 select*from agencia;
 select*from atm;
 select*from aviso;
@@ -177,8 +186,9 @@ select*from empresa;
 select*from escalonamento;
 select*from funcionario;
 select*from leitura;
-select*from localização;
+select*from localizacao;
 select*from plano;
 select*from processos;
 select*from representante_legal;
 select*from tipo;
+select*from relatarProblema;
