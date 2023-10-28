@@ -1,4 +1,3 @@
-drop database secureatm;
 create database SecureATM;
 
 use SecureATM;
@@ -48,6 +47,9 @@ CREATE TABLE funcionario (
     FOREIGN KEY (fkagencia) REFERENCES agencia(idAgen),
     CONSTRAINT pkFuncAgen PRIMARY KEY (idFunc, fkAgencia)
 );
+
+INSERT INTO funcionario(email, senha, nome, fkAgencia) VALUES
+('giovanna@sptech.school', 'teste321', 'Giovanna Freitas', 1);
 
 CREATE TABLE representante_legal (
     RepresentanteLegal INT AUTO_INCREMENT,
