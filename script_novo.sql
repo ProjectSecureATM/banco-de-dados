@@ -1,24 +1,31 @@
+drop database secureatm;
 create database SecureATM;
 
 use SecureATM;
+
+CREATE TABLE plano (
+    idPlano INT AUTO_INCREMENT PRIMARY KEY,
+    tipo INT,
+    nome VARCHAR(45)
+);
+
+insert into plano values
+(null, 1, 'standart'),
+(null, 2, 'advanced');
 
 CREATE TABLE empresa (
     idEmp INT AUTO_INCREMENT PRIMARY KEY,
     CNPJ CHAR(14),
     nome VARCHAR(45),
-    razao_social VARCHAR(45)
+    razao_social VARCHAR(45),
+    codigoEmpresa INT,
+    fkPlano INT,
+    FOREIGN KEY (fkPlano) REFERENCES plano(idPlano)
 );
 
-CREATE TABLE codigoEmpresa (
-	idCodEmp INT AUTO_INCREMENT PRIMARY KEY,
-    Código INT, 
-    fkEmpresaCod INT,
-    FOREIGN KEY (fkEmpresaCod) REFERENCES empresa(idEmp)
-    );
-
 insert into empresa values
-(null, 012012012012, 'bradesco', 'Roberto Silva'),
-(null, 012012012012, 'santander', 'Roberto nogueira');
+(null, 012012012012, 'bradesco', 'Roberto Silva', 0121, 2),
+(null, 012012012012, 'santander', 'Roberto nogueira', 0212, 2);
 
 CREATE TABLE agencia (
     idAgen INT AUTO_INCREMENT,
@@ -38,6 +45,16 @@ CREATE TABLE codigoAgencia (
 insert into agencia values
 (null, 123-0, 1);
 
+CREATE TABLE representante_legal (
+    idRepresentanteLegal INT,
+    Nome varchar(45),
+    email varchar(45),
+    senha char(8),
+    fkEmpresaLegal int, 
+    FOREIGN KEY (fkEmpresaLegal) REFERENCES empresa(idEmp),
+    CONSTRAINT PkCompostaEmpRL PRIMARY KEY (idRepresentanteLegal, fkEmpresaLegal)
+);
+
 CREATE TABLE funcionario (
     idFunc INT AUTO_INCREMENT,
     email VARCHAR(45),
@@ -51,17 +68,6 @@ CREATE TABLE funcionario (
 INSERT INTO funcionario(email, senha, nome, fkAgencia) VALUES
 ('giovanna@sptech.school', 'teste321', 'Giovanna Freitas', 1);
 
-CREATE TABLE representante_legal (
-    RepresentanteLegal INT AUTO_INCREMENT,
-    fkEmpFunc INT,
-    FKAgencFunc INT,
-    email varchar(45),
-    senha char(8),
-    FOREIGN KEY (fkEmpFunc) REFERENCES empresa(idEmp),
-    FOREIGN KEY (FKAgencFunc) REFERENCES funcionario(idFunc),
-    CONSTRAINT pkRPLegal PRIMARY KEY (RepresentanteLegal, fkEmpFunc, FKAgencFunc)
-);
-
 CREATE TABLE localizacao (
     idLoc INT AUTO_INCREMENT PRIMARY KEY,
     cep CHAR(14),
@@ -73,14 +79,6 @@ CREATE TABLE localizacao (
     FOREIGN KEY (fkAgenciaLoc) REFERENCES agencia(idAgen)
 );
 
-CREATE TABLE plano (
-    idPlano INT AUTO_INCREMENT PRIMARY KEY,
-    tipo INT,
-    nome VARCHAR(45),
-    fkAgenciaPlan INT,
-    FOREIGN KEY (fkAgenciaPlan) REFERENCES agencia(idAgen)
-);
-
 CREATE TABLE ATM (
     idATM INT AUTO_INCREMENT,
     Modelo VARCHAR(45),
@@ -89,7 +87,7 @@ CREATE TABLE ATM (
     fkAgenciaEmpresa INT,
     FOREIGN KEY (AgenciaID) REFERENCES agencia(idAgen),
     FOREIGN KEY (fkAgenciaEmpresa) REFERENCES Agencia(idAgen),
-     CONSTRAINT pkATMAgen PRIMARY KEY (idATM, AgenciaID, fkAgenciaEmpresa)
+	CONSTRAINT pkATMAgen PRIMARY KEY (idATM, AgenciaID, fkAgenciaEmpresa)
      #CONSTRAINT pkAgenEmpATM PRIMARY KEY (idATM, fkAgenciaEmpresa)
 );
 
@@ -112,8 +110,7 @@ CREATE TABLE CodigoComponentes (
 INSERT INTO CodigoComponentes VALUES 
 (null, "RAM"),
 (null, "Disco"),
-(null, "CPU"),
-(null, "Latência Rede");
+(null, "CPU");
 
 CREATE TABLE Tipo (
     idTipo INT AUTO_INCREMENT PRIMARY KEY,
@@ -184,7 +181,6 @@ select*from atm;
 select*from aviso;
 select*from codigoagencia;
 select*from codigocomponentes;
-select*from codigoempresa;
 select*from componentes;
 select*from empresa;
 select*from escalonamento;
