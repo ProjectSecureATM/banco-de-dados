@@ -43,30 +43,38 @@ CREATE TABLE codigoAgencia (
     );
 
 insert into agencia values
-(null, 123-0, 1);
+(null, 123-0, 1),
+(null, 123-1, 2);
 
-CREATE TABLE representante_legal (
-    idRepresentanteLegal INT,
-    Nome varchar(45),
-    email varchar(45),
-    senha char(8),
-    fkEmpresaLegal int, 
-    FOREIGN KEY (fkEmpresaLegal) REFERENCES empresa(idEmp),
-    CONSTRAINT PkCompostaEmpRL PRIMARY KEY (idRepresentanteLegal, fkEmpresaLegal)
+insert into codigoAgencia values
+(null, 0121, 1),
+(null, 0242, 1);
+
+CREATE TABLE nivelAcesso (
+idNivelAcesso INT PRIMARY KEY AUTO_INCREMENT,
+tipo INT,
+cargo varchar(30)
 );
 
-CREATE TABLE funcionario (
+insert into nivelAcesso values
+(null, 2, 'RepresentanteLegal'),
+(null, 1, 'EngenheiroDeNoc'),
+(null, 3, 'UsuarioComum');
+
+CREATE TABLE usuario (
     idFunc INT AUTO_INCREMENT,
     email VARCHAR(45),
     senha VARCHAR(45),
     nome VARCHAR(45),
     fkAgencia INT, 
+    fkNivelAcesso INT,
+    FOREIGN KEY (fkNivelAcesso) REFERENCES nivelAcesso(idNivelAcesso),
     FOREIGN KEY (fkagencia) REFERENCES agencia(idAgen),
     CONSTRAINT pkFuncAgen PRIMARY KEY (idFunc, fkAgencia)
 );
 
-INSERT INTO funcionario(email, senha, nome, fkAgencia) VALUES
-('giovanna@sptech.school', 'teste321', 'Giovanna Freitas', 1);
+INSERT INTO usuario(email, senha, nome, fkAgencia, fkNivelAcesso) VALUES
+('giovanna@sptech.school', 'teste321', 'Giovanna Freitas', 1, 2);
 
 CREATE TABLE localizacao (
     idLoc INT AUTO_INCREMENT PRIMARY KEY,
@@ -114,17 +122,16 @@ INSERT INTO CodigoComponentes VALUES
 
 CREATE TABLE Tipo (
     idTipo INT AUTO_INCREMENT PRIMARY KEY,
-    UnidadeMedida INT
+    UnidadeMedida varchar(2)
 );
 
 INSERT INTO Tipo VALUES
-(null, 1 ),
-(null, 2 );
+(null, 'GB' ),
+(null, 'Mb' );
 
 CREATE TABLE Componentes (
     id INT AUTO_INCREMENT,
-    Capacidade INT,
-    Descricao VARCHAR(45),
+    quantidade INT,
     CodigoComponenteID INT,
     ATMID INT,
     TipoID INT,
@@ -135,9 +142,9 @@ CREATE TABLE Componentes (
 );
 
 INSERT INTO Componentes VALUES
-(null, 16 , "memória" , 1 , 1 , 1),
-(null, 16 , "memória_disco" , 2 , 1 , 2),
-(null, 100 , "processador" , 3 , 1 , 1);
+(null, 5, 1 , 1, 1),
+(null, 10, 2 , 1, 1),
+(null, 4, 3 , 1, 1);
 
 CREATE TABLE Leitura (
     LeituraID INT AUTO_INCREMENT,
@@ -147,14 +154,21 @@ CREATE TABLE Leitura (
     ATMComp_ID INT,
     FOREIGN KEY (Componente_ID) REFERENCES Componentes(id),
     FOREIGN KEY (ATMComp_ID) REFERENCES ATM(idATM),
-     CONSTRAINT pkLeiCom PRIMARY KEY (LeituraID, Componente_ID, ATMComp_ID)
+	CONSTRAINT pkLeiCom PRIMARY KEY (LeituraID, Componente_ID, ATMComp_ID)
      #CONSTRAINT pkLeiATMComp PRIMARY KEY (LeituraID, ATMComp_ID)
 );
 
 CREATE TABLE Escalonamento (
-    Escalonamento_ID INT PRIMARY KEY,
+    Escalonamento_ID INT PRIMARY KEY AUTO_INCREMENT,
     TipoEmergencia VARCHAR(45)
 );
+
+insert into Escalonamento values
+(null, 'Emergência'),
+(null, 'Médio'),
+(null, 'Sussa');
+
+
 
 CREATE TABLE Aviso (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -184,11 +198,10 @@ select*from codigocomponentes;
 select*from componentes;
 select*from empresa;
 select*from escalonamento;
-select*from funcionario;
+select*from usuario;
 select*from leitura;
 select*from localizacao;
 select*from plano;
 select*from processos;
-select*from representante_legal;
 select*from tipo;
 select*from relatarProblema;
