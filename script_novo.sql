@@ -62,18 +62,19 @@ insert into nivelAcesso values
 (null, 3, 'UsuarioComum');
 
 CREATE TABLE usuario (
-    idFunc INT AUTO_INCREMENT,
+    idUsuario INT AUTO_INCREMENT,
     email VARCHAR(45),
     senha VARCHAR(45),
     nome VARCHAR(45),
-    fkAgencia INT, 
+    fkAgencia INT,
+    fkEmpUsuario INT,
     fkNivelAcesso INT,
-    FOREIGN KEY (fkNivelAcesso) REFERENCES nivelAcesso(idNivelAcesso),
-    FOREIGN KEY (fkagencia) REFERENCES agencia(idAgen),
-    CONSTRAINT pkFuncAgen PRIMARY KEY (idFunc, fkAgencia)
+    FOREIGN KEY (fkAgencia) REFERENCES agencia(idAgen),
+    FOREIGN KEY (fkEmpUsuario) REFERENCES empresa(idEmp),
+    CONSTRAINT pkUsuario PRIMARY KEY (idUsuario, fkAgencia)
 );
 
-INSERT INTO usuario(email, senha, nome, fkAgencia, fkNivelAcesso) VALUES
+INSERT INTO usuario(email, senha, nome, fkAgencia, fkEmpUsuario, fkNivelAcesso) VALUES
 ('giovanna@sptech.school', 'teste321', 'Giovanna Freitas', 1, 2);
 
 CREATE TABLE localizacao (
@@ -191,6 +192,7 @@ dataHoraProblema datetime
 );
 
 select*from agencia;
+select * from localizacao;
 select*from atm;
 select*from aviso;
 select*from codigoagencia;
