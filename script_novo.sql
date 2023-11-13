@@ -19,6 +19,7 @@ CREATE TABLE empresa (
     nome VARCHAR(45),
     razao_social VARCHAR(45),
     codigoEmpresa INT,
+    codigoEmpresa INT,
     fkPlano INT,
     FOREIGN KEY (fkPlano) REFERENCES plano(idPlano)
 );
