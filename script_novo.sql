@@ -112,6 +112,9 @@ CREATE TABLE Processos (
     FOREIGN KEY (fkATM) REFERENCES ATM(idATM)
 );
 
+INSERT INTO processos values 
+(null, 2556, 'muitolegal', '2023-11-19 00:00:00', 1 );
+
 -- Criando a tabela CodigoComponentes
 CREATE TABLE CodigoComponentes (
     idCodComponentes INT AUTO_INCREMENT PRIMARY KEY,
@@ -210,3 +213,12 @@ SELECT * FROM plano;
 SELECT * FROM processos;
 SELECT * FROM tipo;
 SELECT * FROM relatarProblema;
+
+SELECT MAX(PID) AS quantidade, DATE_FORMAT(data_hora, '%Y-%m-%d %H:00:00') AS hora, fkATM 
+FROM Processos 
+WHERE fkATM = 1 
+GROUP BY DATE_FORMAT(data_hora, '%Y-%m-%d %H:00:00') LIMIT 3;
+
+INSERT INTO processos values 
+();
+
