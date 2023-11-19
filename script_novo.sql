@@ -100,7 +100,8 @@ CREATE TABLE ATM (
     PRIMARY KEY (idATM),
     FOREIGN KEY (fkAgenciaEmp) REFERENCES Agencia(idAgen)
 );
-
+INSERT INTO ATM VALUES 
+(null, 'AutoAtendimento', 'Delfors', 1, 1);
 -- Criando a tabela Processos
 CREATE TABLE Processos (
     id INT AUTO_INCREMENT,
@@ -151,6 +152,12 @@ CREATE TABLE Componentes (
     FOREIGN KEY (TipoID) REFERENCES Tipo(idTipo)
 );
 
+INSERT INTO Componentes VALUES
+(null, 1, 1, 2, 1),
+(null, 1, 2, 1, 1),
+(null, 1, 3, 1, 1);
+
+
 -- Criando a tabela Leitura
 CREATE TABLE Leitura (
     LeituraID INT AUTO_INCREMENT,
@@ -162,6 +169,8 @@ CREATE TABLE Leitura (
     FOREIGN KEY (Componente_ID) REFERENCES Componentes(id),
     FOREIGN KEY (ATMComp_ID) REFERENCES ATM(idATM)
 );
+
+INSERT INTO Leitura VALUES (null, '2023-11-19 13:00:00', 42, 1, 1), (null, '2023-11-19 14:30:00', 38, 2, 1), (null, '2023-11-19 02:50:00', 19, 3, 1);
 
 -- Criando a tabela Escalonamento
 CREATE TABLE Escalonamento (
@@ -219,6 +228,4 @@ FROM Processos
 WHERE fkATM = 1 
 GROUP BY DATE_FORMAT(data_hora, '%Y-%m-%d %H:00:00') LIMIT 3;
 
-INSERT INTO processos values 
-();
-
+SELECT L.Valor FROM Leitura L WHERE L.ATMComp_ID = 1 AND L.Componente_ID = 3 ORDER BY DataRegistro DESC LIMIT 1;
