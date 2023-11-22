@@ -37,10 +37,9 @@ INSERT INTO empresa VALUES
 
 -- Criando a tabela agencia
 CREATE TABLE agencia (
-    idAgen INT AUTO_INCREMENT,
+    idAgen INT AUTO_INCREMENT PRIMARY KEY,
     nAgencia VARCHAR(10),
     fkEmpresa INT,
-    PRIMARY KEY (idAgen),
     FOREIGN KEY (fkEmpresa) REFERENCES empresa(idEmp)
 );
 
@@ -92,16 +91,66 @@ CREATE TABLE localizacao (
 
 -- Criando a tabela ATM
 CREATE TABLE ATM (
-    idATM INT AUTO_INCREMENT,
+    idATM INT AUTO_INCREMENT PRIMARY KEY,
     Modelo VARCHAR(45),
     Fabricante VARCHAR(45),
     AgenciaID INT,
     fkAgenciaEmp INT,
-    PRIMARY KEY (idATM),
-    FOREIGN KEY (fkAgenciaEmp) REFERENCES Agencia(idAgen)
+    FOREIGN KEY (AgenciaID) REFERENCES Agencia(idAgen),
+    FOREIGN KEY (fkAgenciaEmp) REFERENCES Agencia(fkEmpresa)
 );
+
 INSERT INTO ATM VALUES 
 (null, 'AutoAtendimento', 'Delfors', 1, 1);
+
+CREATE TABLE logs(
+idLogs INT PRIMARY KEY AUTO_INCREMENT,
+data_hora DATETIME,
+NCartao char(16),
+contaCliente char(8),
+fk_idATM INT,
+fk_ATMAgencia INT,
+fk_AgenciaEmpresa INT,
+FOREIGN KEY (fk_idATM) REFERENCES ATM(idATM),
+FOREIGN KEY (fk_ATMAgencia) REFERENCES ATM(AgenciaID),
+FOREIGN KEY (fk_AgenciaEmpresa) REFERENCES ATM(fkAgenciaEmp)
+);
+
+CREATE TABLE mensagem(
+idMensagem INT PRIMARY KEY AUTO_INCREMENT,
+Mensagem varchar(500),
+fkLogs INT,
+FOREIGN KEY (fkLogs) REFERENCES logs(idLogs)
+); 
+
+CREATE TABLE TipoERRO (
+idTipoERRO INT PRIMARY KEY AUTO_INCREMENT,
+Tipo varchar(45),
+fkMSG INT,
+FOREIGN KEY (fkMSG) REFERENCES mensagem(idMensagem)
+);
+
+CREATE TABLE rede (
+idRede INT PRIMARY KEY AUTO_INCREMENT,
+Ping INT,
+pacotesEnviados INT,
+pacotesRecebidos INT,
+fk__idATM INT,
+fk__ATMAgencia INT,
+fk__AgenciaEmpresa INT,
+FOREIGN KEY (fk__idATM) REFERENCES ATM(idATM),
+FOREIGN KEY (fk__ATMAgencia) REFERENCES ATM(AgenciaID),
+FOREIGN KEY (fk__AgenciaEmpresa) REFERENCES ATM(fkAgenciaEmp)
+);
+
+CREATE TABLE DDoS (
+idDDoS INT PRIMARY KEY AUTO_INCREMENT,
+IPAtq char(18),
+qtdAtq INT,
+fkRede INT,
+FOREIGN KEY (fkRede) REFERENCES Rede(idRede)
+);
+
 -- Criando a tabela Processos
 CREATE TABLE Processos (
     id INT AUTO_INCREMENT,
@@ -153,10 +202,29 @@ CREATE TABLE Componentes (
 );
 
 INSERT INTO Componentes VALUES
-(null, 1, 1, 2, 1),
+(null, 1, 1, 1, 1),
 (null, 1, 2, 1, 1),
 (null, 1, 3, 1, 1);
 
+CREATE TABLE tempXatividade (
+idTempXAtiv INT AUTO_INCREMENT PRIMARY KEY,
+temperatura FLOAT,
+data_hora DATETIME,
+idComp INT,
+idCompATM INT,
+FOREIGN KEY (idComp) REFERENCES Componentes(id),
+FOREIGN KEY (idCompATM) REFERENCES ATM(idATM)
+);
+
+CREATE TABLE API (
+idAPI INT AUTO_INCREMENT PRIMARY KEY,
+nome varchar(45),
+linguagem varchar(45)
+);
+
+INSERT INTO API VALUES
+(null, 'API Grupo', 'Kotlin'),
+(null, 'API Grupo', 'Python');
 
 -- Criando a tabela Leitura
 CREATE TABLE Leitura (
@@ -165,12 +233,14 @@ CREATE TABLE Leitura (
     Valor FLOAT,
     Componente_ID INT,
     ATMComp_ID INT,
+    APIID INT,
     PRIMARY KEY (LeituraID),
     FOREIGN KEY (Componente_ID) REFERENCES Componentes(id),
-    FOREIGN KEY (ATMComp_ID) REFERENCES ATM(idATM)
+    FOREIGN KEY (ATMComp_ID) REFERENCES ATM(idATM),
+    FOREIGN KEY (APIID) REFERENCES API(idAPI)
 );
 
-INSERT INTO Leitura VALUES (null, '2023-11-19 13:00:00', 42, 1, 1), (null, '2023-11-19 14:30:00', 38, 2, 1), (null, '2023-11-19 02:50:00', 19, 3, 1);
+INSERT INTO Leitura VALUES (null, '2023-11-19 13:00:00', 42, 1, 1, 1), (null, '2023-11-19 14:30:00', 38, 2, 1, 1), (null, '2023-11-19 02:50:00', 19, 3, 1, 1);
 
 -- Criando a tabela Escalonamento
 CREATE TABLE Escalonamento (
