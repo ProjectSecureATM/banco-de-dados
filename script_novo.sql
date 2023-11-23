@@ -292,6 +292,12 @@ SELECT * FROM plano;
 SELECT * FROM processos;
 SELECT * FROM tipo;
 SELECT * FROM relatarProblema;
+SELECT * FROM rede;
+
+SELECT ping FROM rede where fk_idATM = 1;
+
+insert into rede(Ping,pacotesEnviados,pacotesRecebidos,fk__idATM,fk__ATMAgencia,fk__AgenciaEmpresa) values
+(10,10,10,1,1,1);
 
 SELECT MAX(PID) AS quantidade, DATE_FORMAT(data_hora, '%Y-%m-%d %H:00:00') AS hora, fkATM 
 FROM Processos 
