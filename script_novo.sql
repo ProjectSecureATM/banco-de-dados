@@ -206,7 +206,7 @@ INSERT INTO Componentes VALUES
 (null, 1, 2, 1, 1),
 (null, 1, 3, 1, 1);
 
-CREATE TABLE tempXatividade (
+CREATE TABLE temperaturaCPU (
 idTempXAtiv INT AUTO_INCREMENT PRIMARY KEY,
 temperatura FLOAT,
 data_hora DATETIME,
@@ -214,6 +214,17 @@ idComp INT,
 idCompATM INT,
 FOREIGN KEY (idComp) REFERENCES Componentes(id),
 FOREIGN KEY (idCompATM) REFERENCES ATM(idATM)
+);
+
+CREATE TABLE tempoAtividade(
+idTempoAtividade INT PRIMARY KEY AUTO_INCREMENT,
+atividade VARCHAR(100),
+fk__idATM INT,
+fk__ATMAgencia INT,
+fk__AgenciaEmpresa INT,
+FOREIGN KEY (fk__idATM) REFERENCES ATM(idATM),
+FOREIGN KEY (fk__ATMAgencia) REFERENCES ATM(AgenciaID),
+FOREIGN KEY (fk__AgenciaEmpresa) REFERENCES ATM(fkAgenciaEmp)
 );
 
 CREATE TABLE API (
@@ -293,11 +304,13 @@ SELECT * FROM processos;
 SELECT * FROM tipo;
 SELECT * FROM relatarProblema;
 SELECT * FROM rede;
+SELECT * FROM temperaturaCPU;
+SELECT * FROM tempoAtividade;
 
-SELECT ping FROM rede where fk_idATM = 1;
+SELECT ping FROM rede WHERE fk__idATM = 1;
 
-insert into rede(Ping,pacotesEnviados,pacotesRecebidos,fk__idATM,fk__ATMAgencia,fk__AgenciaEmpresa) values
-(10,10,10,1,1,1);
+INSERT INTO rede(ping, pacotesEnviados, pacotesRecebidos, fk__idATM, fk__ATMAgencia, fk__AgenciaEmpresa) VALUES
+(10, 10, 10, 1, 1, 1);
 
 SELECT MAX(PID) AS quantidade, DATE_FORMAT(data_hora, '%Y-%m-%d %H:00:00') AS hora, fkATM 
 FROM Processos 
