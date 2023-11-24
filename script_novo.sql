@@ -178,6 +178,13 @@ INSERT INTO CodigoComponentes VALUES
 (null, "Disco"),
 (null, "CPU");
 
+-- Criando tabela Descrição dos componentes
+CREATE TABLE DescricaoComponentes (
+idDescricaoComponentes INT AUTO_INCREMENT PRIMARY KEY,
+produto
+);
+
+
 -- Criando a tabela Tipo
 CREATE TABLE Tipo (
     idTipo INT AUTO_INCREMENT PRIMARY KEY,
