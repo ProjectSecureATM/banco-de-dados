@@ -132,6 +132,7 @@ FOREIGN KEY (fkMSG) REFERENCES mensagem(idMensagem)
 
 CREATE TABLE rede (
 idRede INT PRIMARY KEY AUTO_INCREMENT,
+data_hora DATETIME,
 Ping INT,
 pacotesEnviados INT,
 pacotesRecebidos INT,
@@ -251,7 +252,7 @@ CREATE TABLE Leitura (
     FOREIGN KEY (APIID) REFERENCES API(idAPI)
 );
 
-INSERT INTO Leitura VALUES (null, '2023-11-19 13:00:00', 42, 1, 1, 1), (null, '2023-11-19 14:30:00', 38, 2, 1, 1), (null, '2023-11-19 02:50:00', 19, 3, 1, 1);
+INSERT INTO Leitura VALUES (null, '2023-11-19 14:00:00', 53, 1, 1, 1), (null, '2023-11-19 15:30:00', 32, 2, 1, 1), (null, '2023-11-19 03:50:00', 28, 3, 1, 1);
 
 -- Criando a tabela Escalonamento
 CREATE TABLE Escalonamento (
@@ -309,8 +310,8 @@ SELECT * FROM tempoAtividade;
 
 SELECT ping FROM rede WHERE fk__idATM = 1;
 
-INSERT INTO rede(ping, pacotesEnviados, pacotesRecebidos, fk__idATM, fk__ATMAgencia, fk__AgenciaEmpresa) VALUES
-(10, 10, 10, 1, 1, 1);
+INSERT INTO rede(hora, ping, pacotesEnviados, pacotesRecebidos, fk__idATM, fk__ATMAgencia, fk__AgenciaEmpresa) VALUES
+('2023-11-12 10:00:01', 87, 22, 13, 1, 1, 1);
 
 SELECT MAX(PID) AS quantidade, DATE_FORMAT(data_hora, '%Y-%m-%d %H:00:00') AS hora, fkATM 
 FROM Processos 
