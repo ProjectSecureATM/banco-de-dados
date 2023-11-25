@@ -75,7 +75,9 @@ CREATE TABLE usuario (
 
 -- Inserindo dados na tabela usuario
 INSERT INTO usuario(email, senha, nome, fkAgencia, fkEmpUsuario, fkNivelAcesso) VALUES
-('Bruno.Bradesco@Brad.com', 'Brad@123', 'Bruno', 1, 1, 2);
+('Bruno.Bradesco@Brad.com', 'Brad@1234', 'Bruno', 1, 1, 2);
+
+SELECT * FROM temperaturaCPU;
 
 -- Criando a tabela localizacao
 CREATE TABLE localizacao (
@@ -102,6 +104,9 @@ CREATE TABLE ATM (
 
 INSERT INTO ATM VALUES 
 (null, 'AutoAtendimento', 'Delfors', 1, 1);
+
+INSERT INTO ATM VALUES 
+(null, 'AutoAtendimento', 'X', 1, 1);
 
 CREATE TABLE logs(
 idLogs INT PRIMARY KEY AUTO_INCREMENT,
@@ -179,10 +184,10 @@ INSERT INTO CodigoComponentes VALUES
 (null, "CPU");
 
 -- Criando tabela Descrição dos componentes
-CREATE TABLE DescricaoComponentes (
-idDescricaoComponentes INT AUTO_INCREMENT PRIMARY KEY,
-produto
-);
+-- CREATE TABLE DescricaoComponentes (
+-- idDescricaoComponentes INT AUTO_INCREMENT PRIMARY KEY,
+-- produto
+-- );
 
 
 -- Criando a tabela Tipo
@@ -215,13 +220,13 @@ INSERT INTO Componentes VALUES
 (null, 1, 3, 1, 1);
 
 CREATE TABLE temperaturaCPU (
-idTempXAtiv INT AUTO_INCREMENT PRIMARY KEY,
-temperatura FLOAT,
+idTemp INT AUTO_INCREMENT PRIMARY KEY,
+temperatura DOUBLE,
 data_hora DATETIME,
-idComp INT,
-idCompATM INT,
-FOREIGN KEY (idComp) REFERENCES Componentes(id),
-FOREIGN KEY (idCompATM) REFERENCES ATM(idATM)
+fkComp INT,
+fkATM INT,
+FOREIGN KEY (fkComp) REFERENCES Componentes(id),
+FOREIGN KEY (fkATM) REFERENCES ATM(idATM)
 );
 
 CREATE TABLE tempoAtividade(
