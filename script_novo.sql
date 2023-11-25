@@ -75,9 +75,8 @@ CREATE TABLE usuario (
 
 -- Inserindo dados na tabela usuario
 INSERT INTO usuario(email, senha, nome, fkAgencia, fkEmpUsuario, fkNivelAcesso) VALUES
-('Bruno.Bradesco@Brad.com', 'Brad@1234', 'Bruno', 1, 1, 2);
+('Bruno.Bradesco@Brad.com', 'Brad@123', 'Bruno', 1, 1, 2);
 
-SELECT * FROM temperaturaCPU;
 
 -- Criando a tabela localizacao
 CREATE TABLE localizacao (
@@ -169,7 +168,7 @@ CREATE TABLE Processos (
 );
 
 INSERT INTO processos values 
-(null, 2556, 'muitolegal', '2023-11-19 00:00:00', 1 );
+(null, 50000, 'muitolegal', '2023-11-25 15:01:00', 1 );
 
 -- Criando a tabela CodigoComponentes
 CREATE TABLE CodigoComponentes (
@@ -229,6 +228,10 @@ FOREIGN KEY (fkComp) REFERENCES Componentes(id),
 FOREIGN KEY (fkATM) REFERENCES ATM(idATM)
 );
 
+INSERT INTO temperaturaCPU Values
+(null, 37.5, "2023-11-19 00:04:05", 3, 1);
+
+
 CREATE TABLE tempoAtividade(
 idTempoAtividade INT PRIMARY KEY AUTO_INCREMENT,
 atividade VARCHAR(100),
@@ -264,7 +267,9 @@ CREATE TABLE Leitura (
     FOREIGN KEY (APIID) REFERENCES API(idAPI)
 );
 
-INSERT INTO Leitura VALUES (null, '2023-11-19 14:00:00', 53, 1, 1, 1), (null, '2023-11-19 15:30:00', 32, 2, 1, 1), (null, '2023-11-19 03:50:00', 28, 3, 1, 1);
+
+
+INSERT INTO Leitura VALUES (null, '2023-11-21 18:00:00', 19, 1, 1, 1), (null, '2023-11-20 20:30:00', 54, 2, 1, 1), (null, '2023-11-22 06:50:00', 40, 3, 1, 1);
 
 -- Criando a tabela Escalonamento
 CREATE TABLE Escalonamento (
@@ -322,12 +327,22 @@ SELECT * FROM tempoAtividade;
 
 SELECT ping FROM rede WHERE fk__idATM = 1;
 
-INSERT INTO rede(hora, ping, pacotesEnviados, pacotesRecebidos, fk__idATM, fk__ATMAgencia, fk__AgenciaEmpresa) VALUES
+INSERT INTO rede(data_hora, ping, pacotesEnviados, pacotesRecebidos, fk__idATM, fk__ATMAgencia, fk__AgenciaEmpresa) VALUES
 ('2023-11-12 10:00:01', 87, 22, 13, 1, 1, 1);
 
 SELECT MAX(PID) AS quantidade, DATE_FORMAT(data_hora, '%Y-%m-%d %H:00:00') AS hora, fkATM 
 FROM Processos 
 WHERE fkATM = 1 
 GROUP BY DATE_FORMAT(data_hora, '%Y-%m-%d %H:00:00') LIMIT 3;
+
+SELECT MAX(Valor) AS quantidade, DATE_FORMAT(DataRegistro, '%Y-%m-%d %H:00:00') AS hora, ATMComp_ID 
+FROM Leitura 
+WHERE ATMComp_ID = 1 AND Componente_ID = 3 
+GROUP BY DATE_FORMAT(DataRegistro, '%Y-%m-%d %H:00:00') LIMIT 1;
+
+SELECT MAX(temperatura) AS temp_cpu, DATE_FORMAT(data_hora, '%Y-%m-%d %H:00:00') AS hora, fkATM 
+FROM temperaturaCPU 
+WHERE fkATM = 1 
+GROUP BY DATE_FORMAT(data_hora, '%Y-%m-%d %H:00:00');
 
 SELECT L.Valor FROM Leitura L WHERE L.ATMComp_ID = 1 AND L.Componente_ID = 3 ORDER BY DataRegistro DESC LIMIT 1;
