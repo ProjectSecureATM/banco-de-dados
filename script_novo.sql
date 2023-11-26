@@ -77,6 +77,7 @@ CREATE TABLE usuario (
 INSERT INTO usuario(email, senha, nome, fkAgencia, fkEmpUsuario, fkNivelAcesso) VALUES
 ('Bruno.Bradesco@Brad.com', 'Brad@123', 'Bruno', 1, 1, 2);
 
+SELECT * FROM temperaturaCPU;
 
 -- Criando a tabela localizacao
 CREATE TABLE localizacao (
@@ -346,3 +347,19 @@ WHERE fkATM = 1
 GROUP BY DATE_FORMAT(data_hora, '%Y-%m-%d %H:00:00');
 
 SELECT L.Valor FROM Leitura L WHERE L.ATMComp_ID = 1 AND L.Componente_ID = 3 ORDER BY DataRegistro DESC LIMIT 1;
+
+-- desempenho geral
+SELECT
+    Leitura.ATMComp_ID,
+    ROUND(AVG(CASE WHEN CodigoComponentes.idCodComponentes = 1 THEN 100 - Leitura.Valor ELSE NULL END), 2) AS MediaCPU,
+    ROUND(AVG(CASE WHEN CodigoComponentes.idCodComponentes = 2 THEN 100 - Leitura.Valor ELSE NULL END), 2) AS MediaRAM,
+    ROUND(AVG(CASE WHEN CodigoComponentes.idCodComponentes = 3 THEN 100 - Leitura.Valor ELSE NULL END), 2) AS MediaDisco,
+    COALESCE(ROUND(AVG(100 - Leitura.Valor), 2), 100) AS DesempenhoGeral
+FROM
+    Leitura
+JOIN
+    CodigoComponentes ON Leitura.Componente_ID = CodigoComponentes.idCodComponentes
+WHERE
+    CodigoComponentes.idCodComponentes IN (1, 2, 3)
+GROUP BY
+    Leitura.ATMComp_ID;
