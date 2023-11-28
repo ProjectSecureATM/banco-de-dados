@@ -58,7 +58,7 @@ INSERT INTO nivelAcesso VALUES
 (null, 2, 'RepresentanteLegal'),
 (null, 1, 'EngenheiroDeNoc'),
 (null, 3, 'UsuarioComum');
-
+ SELECT * FROM usuario JOIN nivelAcesso WHERE email = 'Bruno.Bradesco@Brad.com' AND senha = 'Brad@123' AND tipo = 2;
 -- Criando a tabela usuario
 CREATE TABLE usuario (
     idUsuario INT AUTO_INCREMENT,
@@ -230,7 +230,7 @@ FOREIGN KEY (fkATM) REFERENCES ATM(idATM)
 );
 
 INSERT INTO temperaturaCPU Values
-(null, 37.5, "2023-11-19 00:04:05", 3, 1);
+(null, 10.5, "2023-11-19 09:04:05", 3, 1);
 
 
 CREATE TABLE tempoAtividade(
@@ -326,6 +326,9 @@ SELECT * FROM rede;
 SELECT * FROM temperaturaCPU;
 SELECT * FROM tempoAtividade;
 
+INSERT INTO tempoatividade VALUES
+(null, '24 Dias, 12 Horas, 14 Minutos, 00 Segundos', 1, 1, 1);
+
 SELECT ping FROM rede WHERE fk__idATM = 1;
 
 INSERT INTO rede(data_hora, ping, pacotesEnviados, pacotesRecebidos, fk__idATM, fk__ATMAgencia, fk__AgenciaEmpresa) VALUES
@@ -341,6 +344,13 @@ FROM Leitura
 WHERE ATMComp_ID = 1 AND Componente_ID = 3 
 GROUP BY DATE_FORMAT(DataRegistro, '%Y-%m-%d %H:00:00') LIMIT 1;
 
+SELECT atividade
+    FROM tempoAtividade 
+    WHERE fk__idATM = 1
+    GROUP BY atividade
+    ORDER BY atividade
+    DESC LIMIT 1;
+
 SELECT MAX(temperatura) AS temp_cpu, DATE_FORMAT(data_hora, '%Y-%m-%d %H:00:00') AS hora, fkATM 
 FROM temperaturaCPU 
 WHERE fkATM = 1 
@@ -349,7 +359,7 @@ GROUP BY DATE_FORMAT(data_hora, '%Y-%m-%d %H:00:00');
 SELECT L.Valor FROM Leitura L WHERE L.ATMComp_ID = 1 AND L.Componente_ID = 3 ORDER BY DataRegistro DESC LIMIT 1;
 
 -- desempenho geral
-SELECT
+ SELECT
     Leitura.ATMComp_ID,
     ROUND(AVG(CASE WHEN CodigoComponentes.idCodComponentes = 1 THEN 100 - Leitura.Valor ELSE NULL END), 2) AS MediaCPU,
     ROUND(AVG(CASE WHEN CodigoComponentes.idCodComponentes = 2 THEN 100 - Leitura.Valor ELSE NULL END), 2) AS MediaRAM,
@@ -361,5 +371,10 @@ JOIN
     CodigoComponentes ON Leitura.Componente_ID = CodigoComponentes.idCodComponentes
 WHERE
     CodigoComponentes.idCodComponentes IN (1, 2, 3)
+    AND 
+    ATMComp_ID = 1
 GROUP BY
-    Leitura.ATMComp_ID;
+    Leitura.ATMComp_ID
+ORDER BY 
+	Leitura.ATMComp_ID
+DESC LIMIT 1;
