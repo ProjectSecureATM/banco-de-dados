@@ -229,6 +229,16 @@ FOREIGN KEY (fkComp) REFERENCES Componentes(id),
 FOREIGN KEY (fkATM) REFERENCES ATM(idATM)
 );
 
+CREATE TABLE notificacao (
+idNotificacao INT AUTO_INCREMENT PRIMARY KEY,
+quantidade INT,
+data_hora DATETIME,
+fkComp INT,
+fkATM INT,
+FOREIGN KEY (fkComp) REFERENCES Componentes(id),
+FOREIGN KEY (fkATM) REFERENCES ATM(idATM)
+);
+
 INSERT INTO temperaturaCPU Values
 (null, 10.5, "2023-11-19 09:04:05", 3, 1);
 
@@ -267,8 +277,6 @@ CREATE TABLE Leitura (
     FOREIGN KEY (ATMComp_ID) REFERENCES ATM(idATM),
     FOREIGN KEY (APIID) REFERENCES API(idAPI)
 );
-
-
 
 INSERT INTO Leitura VALUES (null, '2023-11-21 18:00:00', 19, 1, 1, 1), (null, '2023-11-20 20:30:00', 54, 2, 1, 1), (null, '2023-11-22 06:50:00', 40, 3, 1, 1);
 
@@ -325,6 +333,7 @@ SELECT * FROM relatarProblema;
 SELECT * FROM rede;
 SELECT * FROM temperaturaCPU;
 SELECT * FROM tempoAtividade;
+SELECT * FROM notificacao;
 
 INSERT INTO tempoatividade VALUES
 (null, '24 Dias, 12 Horas, 14 Minutos, 00 Segundos', 1, 1, 1);
@@ -353,7 +362,7 @@ SELECT atividade
 
 SELECT MAX(temperatura) AS temp_cpu, DATE_FORMAT(data_hora, '%Y-%m-%d %H:00:00') AS hora, fkATM 
 FROM temperaturaCPU 
-WHERE fkATM = 1 
+WHERE fkATM = 1
 GROUP BY DATE_FORMAT(data_hora, '%Y-%m-%d %H:00:00');
 
 SELECT L.Valor FROM Leitura L WHERE L.ATMComp_ID = 1 AND L.Componente_ID = 3 ORDER BY DataRegistro DESC LIMIT 1;
@@ -374,7 +383,12 @@ WHERE
     AND 
     ATMComp_ID = 1
 GROUP BY
+<<<<<<< HEAD
     Leitura.ATMComp_ID
 ORDER BY 
 	Leitura.ATMComp_ID
 DESC LIMIT 1;
+=======
+    Leitura.ATMComp_ID;
+    
+>>>>>>> 690744a5bf117bacbf50b2748e33e3f5e538af6a
