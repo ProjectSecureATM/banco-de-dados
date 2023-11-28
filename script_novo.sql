@@ -352,7 +352,7 @@ GROUP BY DATE_FORMAT(DataRegistro, '%Y-%m-%d %H:00:00') LIMIT 1;
 
 SELECT MAX(temperatura) AS temp_cpu, DATE_FORMAT(data_hora, '%Y-%m-%d %H:00:00') AS hora, fkATM 
 FROM temperaturaCPU 
-WHERE fkATM = 1 
+WHERE fkATM = 1
 GROUP BY DATE_FORMAT(data_hora, '%Y-%m-%d %H:00:00');
 
 SELECT L.Valor FROM Leitura L WHERE L.ATMComp_ID = 1 AND L.Componente_ID = 3 ORDER BY DataRegistro DESC LIMIT 1;
@@ -372,3 +372,4 @@ WHERE
     CodigoComponentes.idCodComponentes IN (1, 2, 3)
 GROUP BY
     Leitura.ATMComp_ID;
+    
