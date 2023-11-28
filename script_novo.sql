@@ -229,6 +229,16 @@ FOREIGN KEY (fkComp) REFERENCES Componentes(id),
 FOREIGN KEY (fkATM) REFERENCES ATM(idATM)
 );
 
+CREATE TABLE notificacao (
+idNotificacao INT AUTO_INCREMENT PRIMARY KEY,
+quantidade INT,
+data_hora DATETIME,
+fkComp INT,
+fkATM INT,
+FOREIGN KEY (fkComp) REFERENCES Componentes(id),
+FOREIGN KEY (fkATM) REFERENCES ATM(idATM)
+);
+
 INSERT INTO temperaturaCPU Values
 (null, 37.5, "2023-11-19 00:04:05", 3, 1);
 
@@ -267,8 +277,6 @@ CREATE TABLE Leitura (
     FOREIGN KEY (ATMComp_ID) REFERENCES ATM(idATM),
     FOREIGN KEY (APIID) REFERENCES API(idAPI)
 );
-
-
 
 INSERT INTO Leitura VALUES (null, '2023-11-21 18:00:00', 19, 1, 1, 1), (null, '2023-11-20 20:30:00', 54, 2, 1, 1), (null, '2023-11-22 06:50:00', 40, 3, 1, 1);
 
@@ -325,6 +333,7 @@ SELECT * FROM relatarProblema;
 SELECT * FROM rede;
 SELECT * FROM temperaturaCPU;
 SELECT * FROM tempoAtividade;
+SELECT * FROM notificacao;
 
 SELECT ping FROM rede WHERE fk__idATM = 1;
 
