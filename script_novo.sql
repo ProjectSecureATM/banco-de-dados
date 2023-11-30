@@ -194,7 +194,25 @@ INSERT INTO CodigoComponentes VALUES
  FOREIGN KEY (fkComponente) REFERENCES CodigoComponentes(idCodComponentes)
  );
 
- -- select lista de dispositivos
+
+-- select uso cpu
+SELECT Valor, DataRegistro
+FROM Leitura
+WHERE Componente_ID = 3;
+
+-- select uso ram
+SELECT Valor, DataRegistro
+FROM Leitura
+WHERE Componente_ID = 1;
+ 
+ -- select quantidade de dispositivos
+ SELECT COUNT(*) AS Quantidade_USB
+FROM (
+    SELECT DISTINCT produto, fabricante
+    FROM DescricaoComponentes
+) AS USB;
+
+-- select lista de dispositivos
  SELECT produto, fabricante, dataDia
 FROM DescricaoComponentes
 GROUP BY produto, fabricante, dataDia
@@ -205,6 +223,7 @@ FROM Leitura L
 JOIN Componentes C ON L.Componente_ID = C.id
 JOIN DescricaoComponentes DC ON C.id = DC.fkComponente
 WHERE DC.produto = 'Nome do Produto' AND DC.fabricante = 'Nome do Fabricante';
+
  
  
  SELECT * FROM DescricaoComponentes;
@@ -340,6 +359,7 @@ SELECT * FROM localizacao;
 SELECT * FROM ATM;
 SELECT * FROM aviso;
 SELECT * FROM CodigoComponentes;
+SELECT * FROM DescricaoComponentes;
 SELECT * FROM componentes;
 SELECT * FROM empresa;
 SELECT * FROM escalonamento;
