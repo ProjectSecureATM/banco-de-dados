@@ -341,9 +341,6 @@ INSERT INTO tempoatividade VALUES
 
 SELECT ping FROM rede WHERE fk__idATM = 1;
 
-INSERT INTO rede(data_hora, ping, pacotesEnviados, pacotesRecebidos, fk__idATM, fk__ATMAgencia, fk__AgenciaEmpresa) VALUES
-('2023-11-12 10:00:01', 87, 22, 13, 1, 1, 1);
-
 SELECT MAX(PID) AS quantidade, DATE_FORMAT(data_hora, '%Y-%m-%d %H:00:00') AS hora, fkATM 
 FROM Processos 
 WHERE fkATM = 1 
@@ -388,3 +385,12 @@ GROUP BY
 ORDER BY 
 	Leitura.ATMComp_ID
 DESC LIMIT 1;
+
+SELECT MAX(IP) FROM rede WHERE fk__idATM = 1;
+INSERT INTO rede VALUES
+(null, '198.704.211', '2023-11-20 04:02:00', 100, 450, 780, 1, 1, 1 );
+select * from rede;
+
+SELECT MAX(IP) FROM rede WHERE fk__idATM = 1
+    GROUP BY DATE_FORMAT(data_hora, '%Y-%m-%d %H:00:00')
+    ORDER BY DATE_FORMAT(data_hora, '%Y-%m-%d %H:00:00');
