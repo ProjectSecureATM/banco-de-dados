@@ -58,7 +58,7 @@ INSERT INTO nivelAcesso VALUES
 (null, 2, 'RepresentanteLegal'),
 (null, 1, 'EngenheiroDeNoc'),
 (null, 3, 'UsuarioComum');
- SELECT * FROM usuario JOIN nivelAcesso WHERE email = 'Bruno.Bradesco@Brad.com' AND senha = 'Brad@123' AND tipo = 2;
+
 -- Criando a tabela usuario
 CREATE TABLE usuario (
     idUsuario INT AUTO_INCREMENT,
@@ -77,7 +77,7 @@ CREATE TABLE usuario (
 INSERT INTO usuario(email, senha, nome, fkAgencia, fkEmpUsuario, fkNivelAcesso) VALUES
 ('Bruno.Bradesco@Brad.com', 'Brad@123', 'Bruno', 1, 1, 2);
 
-SELECT * FROM temperaturaCPU;
+
 
 -- Criando a tabela localizacao
 CREATE TABLE localizacao (
@@ -137,6 +137,7 @@ FOREIGN KEY (fkMSG) REFERENCES mensagem(idMensagem)
 
 CREATE TABLE rede (
 idRede INT PRIMARY KEY AUTO_INCREMENT,
+IP varchar(18),
 data_hora DATETIME,
 Ping INT,
 pacotesEnviados INT,
@@ -383,12 +384,7 @@ WHERE
     AND 
     ATMComp_ID = 1
 GROUP BY
-<<<<<<< HEAD
     Leitura.ATMComp_ID
 ORDER BY 
 	Leitura.ATMComp_ID
 DESC LIMIT 1;
-=======
-    Leitura.ATMComp_ID;
-    
->>>>>>> 690744a5bf117bacbf50b2748e33e3f5e538af6a
