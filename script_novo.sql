@@ -185,10 +185,29 @@ INSERT INTO CodigoComponentes VALUES
 (null, "CPU");
 
 -- Criando tabela Descrição dos componentes
--- CREATE TABLE DescricaoComponentes (
--- idDescricaoComponentes INT AUTO_INCREMENT PRIMARY KEY,
--- produto
--- );
+ CREATE TABLE DescricaoComponentes (
+ idDescricaoComponentes INT AUTO_INCREMENT PRIMARY KEY,
+ produto VARCHAR(100),
+ fabricante VARCHAR(100),
+ dataDia date,
+ fkComponente INT,
+ FOREIGN KEY (fkComponente) REFERENCES CodigoComponentes(idCodComponentes)
+ );
+
+ -- select lista de dispositivos
+ SELECT produto, fabricante, dataDia
+FROM DescricaoComponentes
+GROUP BY produto, fabricante, dataDia
+HAVING COUNT(*) > 1;
+ 
+ SELECT DC.produto, DC.fabricante, L.Valor, L.DataRegistro
+FROM Leitura L
+JOIN Componentes C ON L.Componente_ID = C.id
+JOIN DescricaoComponentes DC ON C.id = DC.fkComponente
+WHERE DC.produto = 'Nome do Produto' AND DC.fabricante = 'Nome do Fabricante';
+ 
+ 
+ SELECT * FROM DescricaoComponentes;
 
 
 -- Criando a tabela Tipo
