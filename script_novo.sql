@@ -153,7 +153,7 @@ FOREIGN KEY (fk__AgenciaEmpresa) REFERENCES ATM(fkAgenciaEmp)
 CREATE TABLE DDoS (
 idDDoS INT PRIMARY KEY AUTO_INCREMENT,
 IPAtq char(18),
-qtdAtq INT,
+qtdPacotesAtq INT,
 fkRede INT,
 FOREIGN KEY (fkRede) REFERENCES Rede(idRede)
 );
@@ -193,40 +193,6 @@ INSERT INTO CodigoComponentes VALUES
  fkComponente INT,
  FOREIGN KEY (fkComponente) REFERENCES CodigoComponentes(idCodComponentes)
  );
-
-
--- select uso cpu
-SELECT Valor, DataRegistro
-FROM Leitura
-WHERE Componente_ID = 3;
-
--- select uso ram
-SELECT Valor, DataRegistro
-FROM Leitura
-WHERE Componente_ID = 1;
- 
- -- select quantidade de dispositivos
- SELECT COUNT(*) AS Quantidade_USB
-FROM (
-    SELECT DISTINCT produto, fabricante
-    FROM DescricaoComponentes
-) AS USB;
-
--- select lista de dispositivos
- SELECT produto, fabricante, dataDia
-FROM DescricaoComponentes
-GROUP BY produto, fabricante, dataDia
-HAVING COUNT(*) > 1;
- 
- SELECT DC.produto, DC.fabricante, L.Valor, L.DataRegistro
-FROM Leitura L
-JOIN Componentes C ON L.Componente_ID = C.id
-JOIN DescricaoComponentes DC ON C.id = DC.fkComponente
-WHERE DC.produto = 'Nome do Produto' AND DC.fabricante = 'Nome do Fabricante';
-
- 
- 
- SELECT * FROM DescricaoComponentes;
 
 
 -- Criando a tabela Tipo
@@ -371,9 +337,43 @@ SELECT * FROM processos;
 SELECT * FROM tipo;
 SELECT * FROM relatarProblema;
 SELECT * FROM rede;
+select *  FROM DDoS;
 SELECT * FROM temperaturaCPU;
 SELECT * FROM tempoAtividade;
 SELECT * FROM notificacao;
+
+-- select uso cpu
+SELECT Valor, DataRegistro
+FROM Leitura
+WHERE Componente_ID = 3;
+
+-- select uso ram
+SELECT Valor, DataRegistro
+FROM Leitura
+WHERE Componente_ID = 1;
+ 
+ -- select quantidade de dispositivos
+ SELECT COUNT(*) AS Quantidade_USB
+FROM (
+    SELECT DISTINCT produto, fabricante
+    FROM DescricaoComponentes
+) AS USB;
+
+-- select lista de dispositivos
+ SELECT produto, fabricante, dataDia
+FROM DescricaoComponentes
+GROUP BY produto, fabricante, dataDia
+HAVING COUNT(*) > 1;
+ 
+ SELECT DC.produto, DC.fabricante, L.Valor, L.DataRegistro
+FROM Leitura L
+JOIN Componentes C ON L.Componente_ID = C.id
+JOIN DescricaoComponentes DC ON C.id = DC.fkComponente
+WHERE DC.produto = 'Nome do Produto' AND DC.fabricante = 'Nome do Fabricante';
+
+ 
+ 
+ SELECT * FROM DescricaoComponentes;
 
 INSERT INTO tempoatividade VALUES
 (null, '24 Dias, 12 Horas, 14 Minutos, 00 Segundos', 1, 1, 1);
